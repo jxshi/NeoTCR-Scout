@@ -1,0 +1,30 @@
+{
+  "project": "TP53_R175H_HLA_A0201",
+  "gene": "TP53",
+  "mutation": "R175H",
+  "hla": [
+    "HLA-A*02:01"
+  ],
+  "artifacts": {
+    "peptides": "examples/demo_output/tp53_r175h/peptides.tsv",
+    "mhc_binding": "examples/demo_output/tp53_r175h/mhc_binding.tsv",
+    "tcr_hits": "examples/demo_output/tp53_r175h/tcr_hits.tsv",
+    "evidence_score": "examples/demo_output/tp53_r175h/evidence_score.tsv",
+    "similarity_hits": "examples/demo_output/tp53_r175h/similarity_hits.tsv",
+    "related_mutations": "examples/demo_output/tp53_r175h/similar_mutations.tsv",
+    "evidence": "examples/demo_output/tp53_r175h/evidence.json",
+    "report_md": "examples/demo_output/tp53_r175h/report.md",
+    "report": "examples/demo_output/tp53_r175h/report.html"
+  },
+  "databases": [
+    "VDJdb",
+    "IEDB",
+    "TCR3D"
+  ],
+  "mhc_binding_methods": [
+    "rule-based-fallback-v0.1"
+  ],
+  "third_party_tool_notice": "Academic-use workflow notice: NetMHCpan and MHCflurry are external tools. Before using either predictor, contact the original authors and comply with their licenses and citation requirements.",
+  "related_mutations": [],
+  "tcr_candidates": []
+}

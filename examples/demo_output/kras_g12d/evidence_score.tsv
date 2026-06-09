@@ -1,0 +1,5 @@
+identifier	source	peptide	epitope	hla	tra_cdr3	trb_cdr3	similarity	evidence	score	raw_score	score_category	explanation
+VDJDB-KRAS-G12D-001	VDJdb	VVGADGVGK	VVGADGVGK	HLA-A*11:01	CAVNNNDMRF	CASSIRSSYEQYF	1.0	functional assay; tetramer evidence	145.0	145	High	same peptide +50; same HLA +20; same mutation/gene +15; functional assay evidence +30; tetramer evidence +20; literature PMID available +10
+IEDB-KRAS-G12D-001	IEDB	VVGADGVGK	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	0.5	functional assay	75.0	75	Medium	same HLA +20; same mutation/gene +15; functional assay evidence +30; literature PMID available +10
+VDJDB-KRAS-G12V-001	VDJdb	VVVGADGVGK	VVVGAVGVGK	HLA-A*11:01	CAVRDSNYQLIW	CASSLGQDTQYF	0.9	functional assay	55.0	55	Medium	same HLA +20; same antigen family +5; functional assay evidence +30
+TCR3D-KRAS-LIKE-001	TCR3D	VVVGADGVGK	VVVGACGVGK	HLA-A*11:01	CALSDRGSTLGRLYF	CASSPPSGGYNEQFF	0.9	structure available	45.0	45	Low	same HLA +20; same antigen family +5; structure available +20

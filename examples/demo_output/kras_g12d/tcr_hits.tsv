@@ -1,0 +1,18 @@
+identifier	source	epitope	hla	tra_cdr3	trb_cdr3	trbv	trbj	evidence_level	query_peptide	query_hla	gene	mutation	pubmed_id	url	provenance
+VDJDB-KRAS-G12D-001	VDJdb	VVGADGVGK	HLA-A*11:01	CAVNNNDMRF	CASSIRSSYEQYF	TRAV8-4	TRBJ2-7	functional assay; tetramer evidence	VVGADGVGK	HLA-A*11:01	KRAS	G12D	demo	https://vdjdb.cdr3.net/	VDJdb seed fixture
+IEDB-KRAS-G12D-001	IEDB	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	TRBV7-9	TRBJ2-7	functional assay	VVGADGVGK	HLA-A*11:01	KRAS	G12D	demo	https://www.iedb.org/	IEDB seed fixture
+VDJDB-KRAS-G12D-001	VDJdb	VVGADGVGK	HLA-A*11:01	CAVNNNDMRF	CASSIRSSYEQYF	TRAV8-4	TRBJ2-7	functional assay; tetramer evidence	VVVGADGVGK	HLA-A*11:01	KRAS	G12D	demo	https://vdjdb.cdr3.net/	VDJdb seed fixture
+VDJDB-KRAS-G12V-001	VDJdb	VVVGAVGVGK	HLA-A*11:01	CAVRDSNYQLIW	CASSLGQDTQYF	TRBV7-9	TRBJ2-3	functional assay	VVVGADGVGK	HLA-A*11:01	KRAS	G12V		https://vdjdb.cdr3.net/	VDJdb seed fixture
+IEDB-KRAS-G12D-001	IEDB	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	TRBV7-9	TRBJ2-7	functional assay	VVVGADGVGK	HLA-A*11:01	KRAS	G12D	demo	https://www.iedb.org/	IEDB seed fixture
+TCR3D-KRAS-LIKE-001	TCR3D	VVVGACGVGK	HLA-A*11:01	CALSDRGSTLGRLYF	CASSPPSGGYNEQFF	TRAV19	TRBJ2-1	structure available	VVVGADGVGK	HLA-A*11:01	KRAS	G12C		https://tcr3d.ibbr.umd.edu/	TCR3D seed fixture
+VDJDB-KRAS-G12D-001	VDJdb	VVGADGVGK	HLA-A*11:01	CAVNNNDMRF	CASSIRSSYEQYF	TRAV8-4	TRBJ2-7	functional assay; tetramer evidence	LVVVGADGVGK	HLA-A*11:01	KRAS	G12D	demo	https://vdjdb.cdr3.net/	VDJdb seed fixture
+IEDB-KRAS-G12D-001	IEDB	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	TRBV7-9	TRBJ2-7	functional assay	LVVVGADGVGK	HLA-A*11:01	KRAS	G12D	demo	https://www.iedb.org/	IEDB seed fixture
+IEDB-KRAS-G12D-001	IEDB	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	TRBV7-9	TRBJ2-7	functional assay	LVVVGADGV	HLA-A*11:01	KRAS	G12D	demo	https://www.iedb.org/	IEDB seed fixture
+IEDB-KRAS-G12D-001	IEDB	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	TRBV7-9	TRBJ2-7	functional assay	VVVGADGVG	HLA-A*11:01	KRAS	G12D	demo	https://www.iedb.org/	IEDB seed fixture
+TCR3D-KRAS-LIKE-001	TCR3D	VVVGACGVGK	HLA-A*11:01	CALSDRGSTLGRLYF	CASSPPSGGYNEQFF	TRAV19	TRBJ2-1	structure available	VVVGADGVG	HLA-A*11:01	KRAS	G12C		https://tcr3d.ibbr.umd.edu/	TCR3D seed fixture
+IEDB-KRAS-G12D-001	IEDB	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	TRBV7-9	TRBJ2-7	functional assay	KLVVVGADGV	HLA-A*11:01	KRAS	G12D	demo	https://www.iedb.org/	IEDB seed fixture
+IEDB-KRAS-G12D-001	IEDB	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	TRBV7-9	TRBJ2-7	functional assay	LVVVGADGVG	HLA-A*11:01	KRAS	G12D	demo	https://www.iedb.org/	IEDB seed fixture
+VDJDB-KRAS-G12D-001	VDJdb	VVGADGVGK	HLA-A*11:01	CAVNNNDMRF	CASSIRSSYEQYF	TRAV8-4	TRBJ2-7	functional assay; tetramer evidence	VVGADGVGKS	HLA-A*11:01	KRAS	G12D	demo	https://vdjdb.cdr3.net/	VDJdb seed fixture
+IEDB-KRAS-G12D-001	IEDB	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	TRBV7-9	TRBJ2-7	functional assay	VVGADGVGKS	HLA-A*11:01	KRAS	G12D	demo	https://www.iedb.org/	IEDB seed fixture
+VDJDB-KRAS-G12D-001	VDJdb	VVGADGVGK	HLA-A*11:01	CAVNNNDMRF	CASSIRSSYEQYF	TRAV8-4	TRBJ2-7	functional assay; tetramer evidence	VGADGVGK	HLA-A*11:01	KRAS	G12D	demo	https://vdjdb.cdr3.net/	VDJdb seed fixture
+IEDB-KRAS-G12D-001	IEDB	GADGVGKSAL	HLA-A*11:01		CASSQDRGYEQYF	TRBV7-9	TRBJ2-7	functional assay	VGADGVGK	HLA-A*11:01	KRAS	G12D	demo	https://www.iedb.org/	IEDB seed fixture

@@ -17,8 +17,9 @@ mutation + HLA
   -> mutant peptides
   -> MHC binding status/prediction
   -> local VDJdb-style evidence search
+  -> transparent evidence scoring
   -> traceable TSV artifacts
-  -> HTML report
+  -> Markdown/HTML report
 ```
 
 Do not add AlphaFold, Boltz, docking, or TCR generation code to v0.1 unless the user explicitly asks for that milestone.
@@ -48,6 +49,9 @@ Minimum release artifacts:
 ```text
 results/
 ├── peptides.tsv
-├── vdjdb_hits.tsv
+├── mhc_binding.tsv
+├── tcr_hits.tsv
+├── evidence_score.tsv
+├── report.md
 └── report.html
 ```

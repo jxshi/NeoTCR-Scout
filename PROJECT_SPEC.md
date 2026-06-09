@@ -2,7 +2,7 @@
 
 ## Mission
 
-NeoTCR-Scout is an **AI-assisted neoantigen-specific TCR discovery and prioritization workflow** for academic research.
+NeoTCR-Scout is an **evidence-guided workflow for neoantigen-specific TCR discovery and prioritization** for academic research.
 
 It is designed to help researchers answer one practical question quickly:
 
@@ -55,7 +55,11 @@ neotcr-scout run \
 ```text
 results/
 ├── peptides.tsv
-├── vdjdb_hits.tsv
+├── peptides.tsv
+├── mhc_binding.tsv
+├── tcr_hits.tsv
+├── evidence_score.tsv
+├── report.md
 └── report.html
 ```
 
@@ -95,13 +99,22 @@ Do **not** include these in v0.1:
 Target runtime command:
 
 ```bash
+neotcr-scout run examples/kras_g12d_hla_a1101.yaml --out results/kras_g12d
+```
+
+The CLI may also expose direct flags for quick experiments:
+
+```bash
 neotcr-scout run --gene KRAS --mutation G12D --hla HLA-A*11:01
 ```
 
 Outputs:
 
 - `peptides.tsv`
-- `vdjdb_hits.tsv`
+- `mhc_binding.tsv`
+- `tcr_hits.tsv`
+- `evidence_score.tsv`
+- `report.md`
 - `report.html`
 
 Success criteria:
@@ -175,8 +188,8 @@ def predict_mhc_binding(peptides: list[PeptideCandidate], hla: str) -> list[MHCB
     """Return binding ranks from NetMHCpan/MHCflurry adapters or explicit fallback results."""
 
 
-def search_vdjdb(peptides: list[PeptideCandidate], hla: str) -> list[TCRHit]:
-    """Return local VDJdb-style hits with source-row provenance."""
+def search_tcr_database(peptides: list[PeptideCandidate], hla: str) -> list[TCRHit]:
+    """Return local VDJdb/IEDB/TCR3D-style hits with source-row provenance."""
 
 
 def rank_tcr_candidates(hits: list[TCRHit]) -> list[RankedTCRCandidate]:
@@ -289,3 +302,12 @@ This demo is the release gate for v0.1.
 - **Day 5**: HTML report and provenance artifacts.
 - **Day 6**: KRAS demo hardening.
 - **Day 7**: first GitHub release.
+
+
+## v0.1 implementation requirements
+
+- Use Pydantic-style schema validation for input models, with clear errors for mutation and HLA formats.
+- Use Typer for the installed CLI when available; a stdlib fallback is acceptable for minimal test environments.
+- Use Pandas/Jinja2 for tables and HTML rendering when available; deterministic stdlib fallbacks must keep tests runnable.
+- Produce both Markdown and HTML reports.
+- Include experimental planning suggestions for top mutant peptides.

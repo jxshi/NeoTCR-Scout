@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+AMINO_ACIDS = set("ACDEFGHIKLMNPQRSTVWY")
 MUTATION_RE = re.compile(r"^(?P<wt>[A-Z])(?P<position>[1-9][0-9]*)(?P<mut>[A-Z])$")
 
 
@@ -27,7 +28,9 @@ class MutantPeptide:
     length: int
     start: int
     end: int
+    # 1-based mutation position within this peptide window.
     mutation_position: int
+    # 0-based mutation index within this peptide window.
     mutation_index: int
     wildtype_peptide: str
     mutant_peptide: str
@@ -41,10 +44,16 @@ def parse_mutation(mutation: str) -> ParsedMutation:
     match = MUTATION_RE.match(mutation.strip().upper())
     if not match:
         raise ValueError(f"Unsupported mutation {mutation!r}; expected protein substitution like G12D")
+    wildtype = match.group("wt")
+    mutant = match.group("mut")
+    if wildtype not in AMINO_ACIDS or mutant not in AMINO_ACIDS:
+        raise ValueError(f"Unsupported mutation {mutation!r}; amino acids must be canonical one-letter codes")
+    if wildtype == mutant:
+        raise ValueError(f"Unsupported mutation {mutation!r}; wild-type and mutant amino acids must differ")
     return ParsedMutation(
-        wildtype=match.group("wt"),
+        wildtype=wildtype,
         position=int(match.group("position")),
-        mutant=match.group("mut"),
+        mutant=mutant,
     )
 
 
@@ -92,6 +101,7 @@ def annotate_peptide_window(
     flank_end = min(len(mutant_sequence), end + 3)
     mutant_peptide = mutant_sequence[start:end]
     wildtype_peptide = wild_type_sequence[start:end]
+    mutation_index = parsed.position - 1 - start
     return MutantPeptide(
         gene=gene.upper(),
         mutation=parsed.label,
@@ -99,8 +109,8 @@ def annotate_peptide_window(
         length=length,
         start=start + 1,
         end=end,
-        mutation_position=parsed.position,
-        mutation_index=parsed.position - 1 - start,
+        mutation_position=mutation_index + 1,
+        mutation_index=mutation_index,
         wildtype_peptide=wildtype_peptide,
         mutant_peptide=mutant_peptide,
         flanking_context=mutant_sequence[flank_start:flank_end],
@@ -118,6 +128,8 @@ def generate_mutant_peptides(
 
     parsed = parse_mutation(mutation)
     input_sequence = wt_sequence.strip().upper()
+    if not input_sequence:
+        raise ValueError("Protein sequence must not be empty")
     observed = input_sequence[parsed.position - 1] if 0 <= parsed.position - 1 < len(input_sequence) else None
     context = "input_sequence_already_mutant" if observed == parsed.mutant else "mutated_from_wildtype_sequence"
     wild_type_sequence, mutant_sequence = apply_mutation(input_sequence, parsed.label)
@@ -125,7 +137,7 @@ def generate_mutant_peptides(
 
     peptides: list[MutantPeptide] = []
     seen: set[str] = set()
-    for length in lengths:
+    for length in _normalize_lengths(lengths):
         if length <= 0 or length > len(mutant_sequence):
             continue
         min_start = max(0, index - length + 1)
@@ -147,3 +159,18 @@ def generate_mutant_peptides(
                 )
             )
     return peptides
+
+
+def _normalize_lengths(lengths: list[int] | tuple[int, ...]) -> list[int]:
+    """Return peptide lengths as integers with clear errors for bad inputs."""
+
+    normalized: list[int] = []
+    for value in lengths:
+        try:
+            length = int(value)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"peptide length {value!r} is not an integer") from exc
+        if length <= 0:
+            raise ValueError("peptide lengths must be positive integers")
+        normalized.append(length)
+    return normalized

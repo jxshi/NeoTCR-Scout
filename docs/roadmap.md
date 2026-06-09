@@ -1,35 +1,24 @@
 # NeoTCR-Scout roadmap
 
-NeoTCR-Scout is an evidence-guided workflow for neoantigen-specific TCR discovery and prioritization. It is not a de novo TCR generator, therapeutic TCR design platform, or clinical decision system.
+NeoTCR-Scout is a discovery workflow platform. The first release deliberately avoids model training and instead prioritizes a reproducible rule-based path that can be validated, benchmarked, and extended.
 
-## v0.1: evidence mining and report
+## v0.1
 
-Acceptance criteria:
+```text
+Mutation → Neoantigen → HLA binding → TCR evidence search → HTML report
+```
 
-- `neotcr-scout run examples/kras_g12d_hla_a1101.yaml --out results/kras_g12d` works.
-- Outputs include `peptides.tsv`, `mhc_binding.tsv`, `tcr_hits.tsv`, `evidence_score.tsv`, `report.md`, and `report.html`.
-- Input schema validates mutation format, normalizes HLA alleles, and defaults peptide lengths to 8-11.
-- Peptide outputs include mutant peptide, wild-type peptide, mutation index, and flanking context.
-- Similarity outputs include exact/one-mismatch/two-mismatch/Levenshtein/BLOSUM62 evidence.
-- Scoring is transparent and rule-based.
-- Reports include experimental planning suggestions and limitations.
+Implementation principles:
 
-## v0.5: structure-aware pMHC prioritization
+- Keep all module boundaries explicit.
+- Normalize TCR records into a shared schema.
+- Preserve evidence provenance from VDJdb, IEDB, NeoTCR, McPAS-TCR, TCRdb, TCR3D, and literature imports.
+- Make external tools optional adapters rather than hard runtime dependencies.
 
-- pMHC structure modeling.
-- TCR-facing residue annotation.
-- Structure-aware report section.
+## v0.5
 
-## v1.0: risk and structural evidence explorer
+Add pMHC structure prediction adapters for Boltz and AlphaFold3-style workflows, plus peptide/TCR similarity search.
 
-- Off-target peptide risk explorer.
-- TCR3D structural evidence integration.
-- Better local database import/normalization workflows.
+## v1.0
 
-## v2.0: AI-assisted TCR design research module
-
-Any AI-assisted design work must remain a separate research module with clear warnings and validation requirements.
-
-## Academic-use license note
-
-NetMHCpan and MHCflurry remain third-party tools; users must contact the original authors and follow applicable license, citation, and redistribution terms before using either predictor.
+Add risk analysis against a human proteome index, TCR3D structural priors, and docking triage metrics.

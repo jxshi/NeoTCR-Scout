@@ -1,4 +1,4 @@
-"""Sequence similarity utilities for v0.1 evidence mining."""
+"""Rule-based sequence similarity metrics."""
 
 from __future__ import annotations
 

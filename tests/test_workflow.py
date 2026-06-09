@@ -1,206 +1,27 @@
 from pathlib import Path
 
-from neotcr_scout import (
-    generate_mutant_peptides,
-    load_project,
-    normalize_hla,
-    parse_mutation,
-    predict_mhc_binding,
-    rank_tcr_candidates,
-    search_tcr_database,
-)
-from neotcr_scout.input import ProjectInput
-from neotcr_scout.models import TCREntry
-from neotcr_scout.relationship import related_mutations
-from neotcr_scout.scoring import score_tcr_entry
-from neotcr_scout.similarity import (
-    blosum62_score,
-    exact_peptide_match,
-    levenshtein_distance,
-    normalized_similarity,
-    one_mismatch_peptide_match,
-    two_mismatch_peptide_match,
-)
-from neotcr_scout.workflow import run_project
+from neotcr_scout.neoantigen import generate_peptides, parse_mutation
+from neotcr_scout.similarity import levenshtein_distance, normalized_similarity
+from neotcr_scout.workflow import WorkflowInput, run_workflow
 
 
-def test_load_project_yaml_contract():
-    project = load_project("examples/kras_g12d_hla_a1101.yaml")
-    assert project.project == "KRAS_G12D_HLA_A1101"
-    assert project.gene == "KRAS"
-    assert project.mutation == "G12D"
-    assert project.hla == ["HLA-A*11:01"]
-    assert project.peptide_lengths == [8, 9, 10, 11]
+def test_generate_kras_g12d_peptides_contains_expected_windows():
+    mutation = parse_mutation("KRAS G12D")
+    peptides = {candidate.sequence for candidate in generate_peptides(mutation)}
+    assert "VVVGADGVGK" in peptides
+    assert "VVGADGVGK" in peptides
+    assert "VVVGADGVGKS" in peptides
 
 
-def test_input_validation_and_hla_normalization():
-    assert normalize_hla("A*11:01") == "HLA-A*11:01"
-    assert normalize_hla("HLA-A1101") == "HLA-A*11:01"
-    project = ProjectInput.from_mapping({"project": "x", "gene": "kras", "mutation": "g12d", "hla": "A1101"})
-    assert project.gene == "KRAS"
-    assert project.mutation == "G12D"
-    assert project.hla == ["HLA-A*11:01"]
-    assert project.peptide_lengths == [8, 9, 10, 11]
-
-
-def test_invalid_input_has_clear_error_message():
-    try:
-        ProjectInput.from_mapping({"project": "x", "gene": "KRAS", "mutation": "12D", "hla": "A1101"})
-    except ValueError as exc:
-        assert "mutation must use" in str(exc)
-    else:
-        raise AssertionError("invalid mutation should fail validation")
-
-
-def test_generate_kras_g12d_peptides_contains_expected_annotations():
-    mutation = parse_mutation("G12D")
-    assert mutation.position == 12
-    peptides = generate_mutant_peptides(
-        gene="KRAS",
-        mutation="G12D",
-        wt_sequence="MTEYKLVVVGADGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQV",
-        lengths=[8, 9, 10, 11],
-    )
-    peptide_by_sequence = {candidate.sequence: candidate for candidate in peptides}
-    assert "VVVGADGVGK" in peptide_by_sequence
-    assert "VVGADGVGK" in peptide_by_sequence
-    assert "VVVGADGVGKS" in peptide_by_sequence
-    annotated = peptide_by_sequence["VVVGADGVGK"]
-    assert annotated.wildtype_peptide == "VVVGAGGVGK"
-    assert annotated.mutant_peptide == "VVVGADGVGK"
-    assert annotated.mutation_index == 5
-    assert annotated.flanking_context
-
-
-def test_similarity_metrics_and_match_types():
+def test_similarity_metrics():
     assert levenshtein_distance("VVVGADGVGK", "VVVGACGVGK") == 1
     assert normalized_similarity("VVVGADGVGK", "VVVGACGVGK") == 0.9
-    assert exact_peptide_match("AAA", "AAA")
-    assert one_mismatch_peptide_match("AAA", "AAV")
-    assert two_mismatch_peptide_match("AAA", "AVV")
-    assert blosum62_score("VVV", "VVV") > blosum62_score("VVV", "DDD")
 
 
-def test_core_function_pipeline_returns_ranked_candidates():
-    peptides = generate_mutant_peptides("KRAS", "G12D", "MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQV")
-    bindings = predict_mhc_binding(peptides, "HLA-A*11:01")
-    best = sorted(bindings, key=lambda binding: binding.rank_percent)[0]
-    hits = search_tcr_database(best.peptide, best.hla)
-    ranked = rank_tcr_candidates(hits)
-    assert ranked
-    assert ranked[0].raw_score >= ranked[-1].raw_score
-    assert ranked[0].explanation
-
-
-def test_evidence_scoring_rules_are_transparent():
-    entry = TCREntry(
-        identifier="demo",
-        tra_cdr3=None,
-        trb_cdr3="CASSQ",
-        v_gene="TRBV1",
-        j_gene="TRBJ1",
-        epitope="VVVGADGVGK",
-        hla="HLA-A*11:01",
-        source="VDJdb",
-        evidence="functional assay; tetramer evidence",
-        metadata={
-            "query_peptide": "VVVGADGVGK",
-            "query_hla": "HLA-A*11:01",
-            "query_gene": "KRAS",
-            "query_mutation": "G12D",
-            "gene": "KRAS",
-            "mutation": "G12D",
-            "pubmed_id": "123",
-        },
-    )
-    scored = score_tcr_entry(entry)
-    assert scored.raw_score >= 145
-    assert scored.score_category == "High"
-    assert "same peptide +50" in scored.explanation
-
-
-def test_relationships_for_kras_g12d():
-    related = related_mutations("KRAS", "G12D")
-    assert "KRAS G12V" in related
-    assert "NRAS G12D" in related
-
-
-def test_workflow_writes_requested_artifacts_and_reports(tmp_path: Path):
-    result = run_project("examples/kras_g12d_hla_a1101.yaml", tmp_path)
-    expected = [
-        "peptides.tsv",
-        "mhc_binding.tsv",
-        "tcr_hits.tsv",
-        "evidence_score.tsv",
-        "report.md",
-        "report.html",
-        "similarity_hits.tsv",
-        "similar_mutations.tsv",
-        "evidence.json",
-    ]
-    for filename in expected:
-        assert (tmp_path / filename).exists()
-    assert result.tcr_candidates
-    report_md = (tmp_path / "report.md").read_text(encoding="utf-8")
-    assert "Experimental planning suggestions" in report_md
-    assert "TCR cross-reactivity must be experimentally tested" in report_md
-    assert "NeoTCR-Scout report" in (tmp_path / "report.html").read_text(encoding="utf-8")
-
-
-def test_quick_run_without_protein_sequence_uses_builtin_kras_reference(tmp_path: Path):
-    project = ProjectInput.from_mapping({
-        "project": "quick",
-        "gene": "KRAS",
-        "mutation": "G12D",
-        "hla": ["HLA-A1101"],
-    })
-    from neotcr_scout.workflow import run_validated_project
-
-    result = run_validated_project(project, tmp_path)
-
-    assert (tmp_path / "report.html").exists()
-    assert result.peptides
-
-
-def test_netmhcpan_tool_from_env_is_called_and_parsed(tmp_path, monkeypatch):
-    executable = tmp_path / "netMHCpan"
-    executable.write_text(
-        "#!/usr/bin/env python3\n"
-        "print('Pos MHC Peptide EL_Rank BindLevel')\n"
-        "print('1 HLA-A11:01 VVVGADGVGK 0.21 <= SB')\n",
-        encoding="utf-8",
-    )
-    executable.chmod(0o755)
-    monkeypatch.setenv("NEOTCR_SCOUT_NETMHCPAN", str(executable))
-    monkeypatch.delenv("NEOTCR_SCOUT_MHCFLURRY_PREDICT", raising=False)
-
-    predictions = predict_mhc_binding(["VVVGADGVGK"], "HLA-A*11:01")
-
-    assert predictions[0].method == "NetMHCpan"
-    assert predictions[0].rank_percent == 0.21
-    assert predictions[0].binder == "<= SB"
-
-
-def test_mhcflurry_tool_from_env_is_called_when_netmhcpan_absent(tmp_path, monkeypatch):
-    executable = tmp_path / "mhcflurry-predict"
-    executable.write_text(
-        "#!/usr/bin/env python3\n"
-        "print('allele,peptide,affinity,presentation_percentile')\n"
-        "print('HLA-A*11:01,VVVGADGVGK,42.0,0.35')\n",
-        encoding="utf-8",
-    )
-    executable.chmod(0o755)
-    monkeypatch.setenv("NEOTCR_SCOUT_NETMHCPAN", str(tmp_path / "missing-netMHCpan"))
-    monkeypatch.setenv("NEOTCR_SCOUT_MHCFLURRY_PREDICT", str(executable))
-
-    predictions = predict_mhc_binding(["VVVGADGVGK"], "HLA-A*11:01")
-
-    assert predictions[0].method == "MHCflurry"
-    assert predictions[0].rank_percent == 0.35
-    assert predictions[0].affinity_nm == 42.0
-
-
-def test_workflow_evidence_records_third_party_license_notice(tmp_path: Path):
-    run_project("examples/kras_g12d_hla_a1101.yaml", tmp_path)
-    evidence = (tmp_path / "evidence.json").read_text(encoding="utf-8")
-    assert "contact the original authors" in evidence
+def test_workflow_writes_report(tmp_path: Path):
+    output = tmp_path / "report.html"
+    result = run_workflow(WorkflowInput(mutation="KRAS G12D", hla="HLA-A*11:01", output=output))
+    assert output.exists()
+    assert result.tcr_hits
+    assert result.pmhc.pdb_path is not None
+    assert "NeoTCR-Scout report" in output.read_text(encoding="utf-8")

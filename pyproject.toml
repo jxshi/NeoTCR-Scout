@@ -1,12 +1,11 @@
 [build-system]
-requires = []
-build-backend = "build_backend"
-backend-path = ["."]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "neotcr-scout"
 version = "0.1.0"
-description = "Evidence-guided neoantigen-specific TCR discovery and prioritization workflow."
+description = "Rule-based neoantigen-to-TCR discovery workflow platform."
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "NeoTCR-Scout contributors" }]
@@ -21,10 +20,12 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
-workflow = ["typer>=0.12", "pydantic>=2", "pandas>=2", "jinja2>=3.1"]
 
 [project.scripts]
 neotcr-scout = "neotcr_scout.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["neotcr_scout*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

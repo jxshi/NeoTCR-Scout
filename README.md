@@ -1,142 +1,107 @@
 # NeoTCR-Scout
 
-**NeoTCR-Scout is a reproducible evidence-mining workflow for neoantigen-specific TCR discovery.**
+NeoTCR-Scout is a **research workflow platform** for rule-based neoantigen-to-TCR discovery. The project is intentionally positioned as a workflow platform rather than a static database or a first-generation AI model: databases age, models change, but a reproducible workflow can continue to orchestrate better tools as the field evolves.
 
-The v0.1 goal is intentionally narrow and useful:
+> **Current scope:** v0.1 focuses on deterministic, rule-based discovery: mutation → neoantigen candidates → HLA binding evidence → TCR database mining → HTML report.
 
-```text
-KRAS G12D + HLA-A*11:01
-        ↓
-generate 8-11mer mutant peptides
-        ↓
-predict MHC binding with NetMHCpan/MHCflurry when available
-        ↓
-query VDJdb / IEDB / TCR3D evidence adapters
-        ↓
-write traceable TSV/JSON artifacts and an HTML candidate-TCR evidence report
-```
+NeoTCR-Scout is for research triage and hypothesis generation only. It is not a clinical decision system.
 
-NeoTCR-Scout is a research workflow platform, not a clinical decision system and not a first-step AI training project. The first version prioritizes reproducibility, provenance, and simple command-line use.
+## Example
 
-## Quick start
-
-```bash
-PYTHONPATH=. python -m neotcr_scout.cli run examples/kras_g12d_hla_a1101.yaml --out results/kras_g12d
-```
-
-Expected output directory:
-
-```text
-results/kras_g12d/
-├── peptides.tsv
-├── mhc_binding.tsv
-├── tcr_hits.tsv
-├── similarity_hits.tsv
-├── evidence.json
-└── report.html
-```
-
-## Input format
+Input:
 
 ```yaml
-project: KRAS_G12D_HLA_A1101
-gene: KRAS
-mutation: G12D
-protein_sequence: MTEYKLVVVGADGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQV
-hla:
-  - HLA-A*11:01
-peptide_lengths:
-  - 8
-  - 9
-  - 10
-  - 11
+Mutation: KRAS G12D
+HLA: HLA-A*11:01
 ```
 
-The parser accepts the small YAML subset needed by v0.1 without requiring PyYAML.
+Run:
 
-## Five core v0.1 functions
-
-```python
-from neotcr_scout import (
-    generate_mutant_peptides,
-    predict_mhc_binding,
-    search_tcr_database,
-    rank_tcr_candidates,
-    generate_html_report,
-)
+```bash
+neotcr-scout run --mutation "KRAS G12D" --hla "HLA-A*11:01" --output report.html
 ```
 
-- `generate_mutant_peptides(gene, mutation, wt_sequence, lengths=[8,9,10,11])`
-- `predict_mhc_binding(peptides, hla)`
-- `search_tcr_database(peptide, hla)`
-- `rank_tcr_candidates(results)`
-- `generate_html_report(project)`
+Output includes:
+
+```yaml
+Candidate_TCRs:
+  - TCR1
+  - TCR2
+  - TCR3
+Evidence:
+  - VDJdb
+  - IEDB
+  - NeoTCR
+  - Literature
+pMHC:
+  structure.pdb
+Risk:
+  off_target_score
+Report:
+  report.html
+```
+
+## Architecture
+
+```text
+NeoTCR-Scout
+├── Input
+├── Neoantigen Engine
+├── pMHC Engine
+├── TCR Mining Engine
+├── Similarity Engine
+├── Structural Engine
+├── Risk Engine
+└── Report Engine
+```
+
+## Version roadmap
+
+### v0.1 — rule-based discovery
+
+- Parse mutation and HLA input.
+- Generate mutation-centered 8-11mer peptide windows.
+- Estimate HLA binding with a deterministic rule-based scorer or imported predictor output.
+- Mine normalized TCR evidence from local database snapshots.
+- Generate a portable HTML report.
+
+### v0.5 — structure-aware discovery
+
+- Add Boltz / AlphaFold3 adapters for pMHC structure prediction.
+- Compute peptide residue exposure and TCR-facing residue summaries.
+- Add TCR and epitope similarity search.
+
+### v1.0 — risk and docking triage
+
+- Integrate TCR3D-derived structural evidence.
+- Add human-proteome off-target peptide search.
+- Add docking/interface metrics for prioritized candidates.
+
+### v2.0 — design research track
+
+- Evaluate peptide-to-TCR generation only after the discovery workflow is stable and benchmarked.
 
 ## Repository layout
 
 ```text
-NeoTCR-Scout/
-├── neotcr_scout/
-│   ├── input.py
-│   ├── peptide.py
-│   ├── mhc_binding.py
-│   ├── database/
-│   │   ├── vdjdb.py
-│   │   ├── iedb.py
-│   │   └── tcr3d.py
-│   ├── similarity.py
-│   ├── scoring.py
-│   ├── report.py
-│   └── workflow.py
-├── examples/
-│   ├── kras_g12d_hla_a1101.yaml
-│   └── demo_output/
-├── data/
-│   └── README.md
-├── tests/
-├── docs/
-├── pyproject.toml
-├── README.md
-└── LICENSE
+neotcr_scout/
+  neoantigen/   # mutation parsing and peptide window generation
+  pmhc/         # HLA binding and pMHC structure adapters
+  mining/       # normalized TCR evidence loading/search
+  similarity/   # sequence similarity scoring
+  structure/    # structural triage placeholders/adapters
+  risk/         # off-target risk screening
+  report/       # report rendering
+database/       # small seed data and future database snapshots
+examples/       # runnable examples
+notebooks/      # exploratory notebooks
+docs/           # platform and roadmap docs
+tests/          # regression tests
 ```
-
-
-## Third-party MHC binding tools and licenses
-
-This repository is for academic research workflows only. NetMHCpan and MHCflurry are external third-party predictors. NeoTCR-Scout can call them when you provide a licensed/local installation, but it does not grant any rights to use, redistribute, or modify those tools. If you plan to use NetMHCpan or MHCflurry, contact the original authors and comply with their license and citation requirements.
-
-Tool resolution order for `predict_mhc_binding` is:
-
-1. `NEOTCR_SCOUT_NETMHCPAN` exact executable path.
-2. `tools/netMHCpan` or `tools/netMHCpan/netMHCpan`.
-3. `netMHCpan` / `netmhcpan` on `PATH`.
-4. `NEOTCR_SCOUT_MHCFLURRY_PREDICT` exact executable path.
-5. `tools/mhcflurry/.../mhcflurry-predict`.
-6. `mhcflurry-predict` on `PATH`.
-7. deterministic fallback with explicit provenance if no external tool is available.
-
-MHCflurry can be installed from the OpenVax repository: <https://github.com/openvax/mhcflurry>. See `tools/README.md` for local layout examples.
-
-## Database adapters
-
-The v0.1 database layer is deliberately adapter-based:
-
-- `neotcr_scout.database.vdjdb` keeps the VDJdb boundary for local exports containing TCR sequence, epitope, and MHC context.
-- `neotcr_scout.database.iedb` keeps the IEDB receptor-query boundary for future programmatic queries.
-- `neotcr_scout.database.tcr3d` keeps the structural-evidence boundary for future TCR-pMHC context.
-
-The repository currently includes tiny deterministic seed records only. Production use should replace them with pinned local exports under `data/`, including access dates and checksums.
-
-## Four-week v0.1 implementation priority
-
-1. Week 1: repo skeleton, input parsing, mutant-peptide generation.
-2. Week 2: NetMHCpan or MHCflurry adapter hardening and version-pinned parsers.
-3. Week 3: download and normalize VDJdb for local search.
-4. Week 4: complete HTML report and KRAS G12D demo artifacts.
 
 ## Development
 
 ```bash
-PYTHONPATH=. pytest -q
-PYTHONPATH=. python -m neotcr_scout.cli run examples/kras_g12d_hla_a1101.yaml --out results/kras_g12d
+python -m pip install -e '.[dev]'
+pytest
 ```

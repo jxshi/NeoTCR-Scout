@@ -1,31 +1,24 @@
-# NeoTCR-Scout v0.1 roadmap
+# NeoTCR-Scout roadmap
 
-NeoTCR-Scout starts as a small, reproducible discovery workflow:
+NeoTCR-Scout is a discovery workflow platform. The first release deliberately avoids model training and instead prioritizes a reproducible rule-based path that can be validated, benchmarked, and extended.
+
+## v0.1
 
 ```text
-input mutation + HLA → mutant peptides → MHC binding → TCR evidence search → HTML report
+Mutation → Neoantigen → HLA binding → TCR evidence search → HTML report
 ```
 
-## v0.1 acceptance criteria
+Implementation principles:
 
-- Accept `examples/kras_g12d_hla_a1101.yaml` as the canonical demo input.
-- Generate 8-11mer KRAS G12D mutant peptides.
-- Use NetMHCpan/MHCflurry if installed under `tools/`, configured by environment variable, or available on `PATH`; otherwise write an explicit fallback method into provenance.
-- Search VDJdb, IEDB, and TCR3D adapter boundaries.
-- Write `peptides.tsv`, `mhc_binding.tsv`, `tcr_hits.tsv`, `similarity_hits.tsv`, `evidence.json`, and `report.html`.
+- Keep all module boundaries explicit.
+- Normalize TCR records into a shared schema.
+- Preserve evidence provenance from VDJdb, IEDB, NeoTCR, McPAS-TCR, TCRdb, TCR3D, and literature imports.
+- Make external tools optional adapters rather than hard runtime dependencies.
 
-## Why not Boltz/AlphaFold/docking in v0.1?
+## v0.5
 
-The first useful milestone is a traceable evidence report. Structure prediction and docking are valuable, but they should not block the minimal workflow. They belong after the input, binding, database normalization, and reporting interfaces are stable.
+Add pMHC structure prediction adapters for Boltz and AlphaFold3-style workflows, plus peptide/TCR similarity search.
 
-## Near-term plan
+## v1.0
 
-1. Harden input validation and add more mutation examples.
-2. Add version-pinned NetMHCpan/MHCflurry output parsers.
-3. Normalize a dated VDJdb export into local searchable TSV/JSON.
-4. Add IEDB Query API integration behind the existing adapter boundary.
-5. Add TCR3D structural provenance tables after the evidence report is stable.
-
-## Academic-use license note
-
-NeoTCR-Scout is intended for academic research workflows. NetMHCpan and MHCflurry remain third-party tools; users must contact the original authors and follow the applicable license, citation, and redistribution terms before using either predictor.
+Add risk analysis against a human proteome index, TCR3D structural priors, and docking triage metrics.

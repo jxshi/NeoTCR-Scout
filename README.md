@@ -101,6 +101,22 @@ NeoTCR-Scout/
 ```
 
 
+## Third-party MHC binding tools and licenses
+
+This repository is for academic research workflows only. NetMHCpan and MHCflurry are external third-party predictors. NeoTCR-Scout can call them when you provide a licensed/local installation, but it does not grant any rights to use, redistribute, or modify those tools. If you plan to use NetMHCpan or MHCflurry, contact the original authors and comply with their license and citation requirements.
+
+Tool resolution order for `predict_mhc_binding` is:
+
+1. `NEOTCR_SCOUT_NETMHCPAN` exact executable path.
+2. `tools/netMHCpan` or `tools/netMHCpan/netMHCpan`.
+3. `netMHCpan` / `netmhcpan` on `PATH`.
+4. `NEOTCR_SCOUT_MHCFLURRY_PREDICT` exact executable path.
+5. `tools/mhcflurry/.../mhcflurry-predict`.
+6. `mhcflurry-predict` on `PATH`.
+7. deterministic fallback with explicit provenance if no external tool is available.
+
+MHCflurry can be installed from the OpenVax repository: <https://github.com/openvax/mhcflurry>. See `tools/README.md` for local layout examples.
+
 ## Database adapters
 
 The v0.1 database layer is deliberately adapter-based:

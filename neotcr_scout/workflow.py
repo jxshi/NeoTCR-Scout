@@ -9,7 +9,7 @@ from pathlib import Path
 
 from neotcr_scout.database import search_tcr_database
 from neotcr_scout.input import ScoutProject, load_project
-from neotcr_scout.mhc_binding import MHCBindingPrediction, predict_mhc_binding
+from neotcr_scout.mhc_binding import ACADEMIC_LICENSE_NOTICE, MHCBindingPrediction, predict_mhc_binding
 from neotcr_scout.peptide import MutantPeptide, generate_mutant_peptides
 from neotcr_scout.report import generate_html_report
 from neotcr_scout.scoring import TCRCandidate, rank_tcr_candidates
@@ -73,6 +73,7 @@ def run_project(input_path: str | Path, out_dir: str | Path) -> WorkflowResult:
         "artifacts": {key: str(path) for key, path in artifacts.items()},
         "databases": ["VDJdb", "IEDB", "TCR3D"],
         "mhc_binding_methods": sorted({prediction.method for prediction in binding}),
+        "third_party_tool_notice": ACADEMIC_LICENSE_NOTICE,
         "tcr_candidates": candidate_rows,
     }
     artifacts["evidence"].write_text(json.dumps(evidence, indent=2), encoding="utf-8")
@@ -86,6 +87,7 @@ def run_project(input_path: str | Path, out_dir: str | Path) -> WorkflowResult:
         "peptides": peptide_rows,
         "mhc_binding": binding_rows,
         "tcr_candidates": candidate_rows,
+        "third_party_tool_notice": ACADEMIC_LICENSE_NOTICE,
     }
     report_path = generate_html_report(report_project, artifacts["report"])
     return WorkflowResult(

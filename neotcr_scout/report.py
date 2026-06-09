@@ -41,6 +41,7 @@ def generate_html_report(project: dict, output_path: str | Path | None = None) -
   <p><strong>Project:</strong> {escape(project['project'])}</p>
   <p><strong>Input:</strong> {escape(project['gene'])} {escape(project['mutation'])}; HLA {escape(', '.join(project['hla']))}</p>
   <p><strong>Scope:</strong> reproducible evidence mining for neoantigen-specific TCR discovery. This is a research report, not a clinical recommendation.</p>
+  <p><strong>Third-party tool notice:</strong> {escape(project.get('third_party_tool_notice', 'Users are responsible for third-party tool licenses.'))}</p>
 
   <h2>1. Mutant peptides</h2>
   <table><tr><th>Peptide</th><th>Length</th><th>Protein positions</th><th>Input context</th></tr>{peptides}</table>

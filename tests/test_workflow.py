@@ -61,3 +61,47 @@ def test_workflow_writes_requested_artifacts(tmp_path: Path):
         assert (tmp_path / filename).exists()
     assert result.tcr_candidates
     assert "NeoTCR-Scout v0.1 evidence report" in (tmp_path / "report.html").read_text(encoding="utf-8")
+
+
+def test_netmhcpan_tool_from_env_is_called_and_parsed(tmp_path, monkeypatch):
+    executable = tmp_path / "netMHCpan"
+    executable.write_text(
+        "#!/usr/bin/env python3\n"
+        "print('Pos MHC Peptide EL_Rank BindLevel')\n"
+        "print('1 HLA-A11:01 VVVGADGVGK 0.21 <= SB')\n",
+        encoding="utf-8",
+    )
+    executable.chmod(0o755)
+    monkeypatch.setenv("NEOTCR_SCOUT_NETMHCPAN", str(executable))
+    monkeypatch.delenv("NEOTCR_SCOUT_MHCFLURRY_PREDICT", raising=False)
+
+    predictions = predict_mhc_binding(["VVVGADGVGK"], "HLA-A*11:01")
+
+    assert predictions[0].method == "NetMHCpan"
+    assert predictions[0].rank_percent == 0.21
+    assert predictions[0].binder == "<= SB"
+
+
+def test_mhcflurry_tool_from_env_is_called_when_netmhcpan_absent(tmp_path, monkeypatch):
+    executable = tmp_path / "mhcflurry-predict"
+    executable.write_text(
+        "#!/usr/bin/env python3\n"
+        "print('allele,peptide,affinity,presentation_percentile')\n"
+        "print('HLA-A*11:01,VVVGADGVGK,42.0,0.35')\n",
+        encoding="utf-8",
+    )
+    executable.chmod(0o755)
+    monkeypatch.setenv("NEOTCR_SCOUT_NETMHCPAN", str(tmp_path / "missing-netMHCpan"))
+    monkeypatch.setenv("NEOTCR_SCOUT_MHCFLURRY_PREDICT", str(executable))
+
+    predictions = predict_mhc_binding(["VVVGADGVGK"], "HLA-A*11:01")
+
+    assert predictions[0].method == "MHCflurry"
+    assert predictions[0].rank_percent == 0.35
+    assert predictions[0].affinity_nm == 42.0
+
+
+def test_workflow_evidence_records_third_party_license_notice(tmp_path: Path):
+    run_project("examples/kras_g12d_hla_a1101.yaml", tmp_path)
+    evidence = (tmp_path / "evidence.json").read_text(encoding="utf-8")
+    assert "contact the original authors" in evidence

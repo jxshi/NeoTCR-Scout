@@ -1,0 +1,8 @@
+group: RAS
+queries:
+  KRAS G12D:
+    - KRAS G12V
+    - KRAS G12C
+    - KRAS G13D
+    - NRAS G12D
+    - HRAS G12D

@@ -1,0 +1,6 @@
+query	source
+KRAS G12V	data/mutation_groups/ras.yaml
+KRAS G12C	data/mutation_groups/ras.yaml
+KRAS G13D	data/mutation_groups/ras.yaml
+NRAS G12D	data/mutation_groups/ras.yaml
+HRAS G12D	data/mutation_groups/ras.yaml

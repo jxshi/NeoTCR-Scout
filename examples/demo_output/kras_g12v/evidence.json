@@ -1,0 +1,30 @@
+{
+  "project": "KRAS_G12V_HLA_A0301",
+  "gene": "KRAS",
+  "mutation": "G12V",
+  "hla": [
+    "HLA-A*03:01"
+  ],
+  "artifacts": {
+    "peptides": "examples/demo_output/kras_g12v/peptides.tsv",
+    "mhc_binding": "examples/demo_output/kras_g12v/mhc_binding.tsv",
+    "tcr_hits": "examples/demo_output/kras_g12v/tcr_hits.tsv",
+    "evidence_score": "examples/demo_output/kras_g12v/evidence_score.tsv",
+    "similarity_hits": "examples/demo_output/kras_g12v/similarity_hits.tsv",
+    "related_mutations": "examples/demo_output/kras_g12v/similar_mutations.tsv",
+    "evidence": "examples/demo_output/kras_g12v/evidence.json",
+    "report_md": "examples/demo_output/kras_g12v/report.md",
+    "report": "examples/demo_output/kras_g12v/report.html"
+  },
+  "databases": [
+    "VDJdb",
+    "IEDB",
+    "TCR3D"
+  ],
+  "mhc_binding_methods": [
+    "rule-based-fallback-v0.1"
+  ],
+  "third_party_tool_notice": "Academic-use workflow notice: NetMHCpan and MHCflurry are external tools. Before using either predictor, contact the original authors and comply with their licenses and citation requirements.",
+  "related_mutations": [],
+  "tcr_candidates": []
+}

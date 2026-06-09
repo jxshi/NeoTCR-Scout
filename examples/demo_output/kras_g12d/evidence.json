@@ -1,0 +1,112 @@
+{
+  "project": "KRAS_G12D_HLA_A1101",
+  "gene": "KRAS",
+  "mutation": "G12D",
+  "hla": [
+    "HLA-A*11:01"
+  ],
+  "artifacts": {
+    "peptides": "examples/demo_output/kras_g12d/peptides.tsv",
+    "mhc_binding": "examples/demo_output/kras_g12d/mhc_binding.tsv",
+    "tcr_hits": "examples/demo_output/kras_g12d/tcr_hits.tsv",
+    "evidence_score": "examples/demo_output/kras_g12d/evidence_score.tsv",
+    "similarity_hits": "examples/demo_output/kras_g12d/similarity_hits.tsv",
+    "related_mutations": "examples/demo_output/kras_g12d/similar_mutations.tsv",
+    "evidence": "examples/demo_output/kras_g12d/evidence.json",
+    "report_md": "examples/demo_output/kras_g12d/report.md",
+    "report": "examples/demo_output/kras_g12d/report.html"
+  },
+  "databases": [
+    "VDJdb",
+    "IEDB",
+    "TCR3D"
+  ],
+  "mhc_binding_methods": [
+    "rule-based-fallback-v0.1"
+  ],
+  "third_party_tool_notice": "Academic-use workflow notice: NetMHCpan and MHCflurry are external tools. Before using either predictor, contact the original authors and comply with their licenses and citation requirements.",
+  "related_mutations": [
+    {
+      "query": "KRAS G12V",
+      "source": "data/mutation_groups/ras.yaml"
+    },
+    {
+      "query": "KRAS G12C",
+      "source": "data/mutation_groups/ras.yaml"
+    },
+    {
+      "query": "KRAS G13D",
+      "source": "data/mutation_groups/ras.yaml"
+    },
+    {
+      "query": "NRAS G12D",
+      "source": "data/mutation_groups/ras.yaml"
+    },
+    {
+      "query": "HRAS G12D",
+      "source": "data/mutation_groups/ras.yaml"
+    }
+  ],
+  "tcr_candidates": [
+    {
+      "identifier": "VDJDB-KRAS-G12D-001",
+      "source": "VDJdb",
+      "peptide": "VVGADGVGK",
+      "epitope": "VVGADGVGK",
+      "hla": "HLA-A*11:01",
+      "tra_cdr3": "CAVNNNDMRF",
+      "trb_cdr3": "CASSIRSSYEQYF",
+      "similarity": 1.0,
+      "evidence": "functional assay; tetramer evidence",
+      "score": 145.0,
+      "raw_score": 145,
+      "score_category": "High",
+      "explanation": "same peptide +50; same HLA +20; same mutation/gene +15; functional assay evidence +30; tetramer evidence +20; literature PMID available +10"
+    },
+    {
+      "identifier": "IEDB-KRAS-G12D-001",
+      "source": "IEDB",
+      "peptide": "VVGADGVGK",
+      "epitope": "GADGVGKSAL",
+      "hla": "HLA-A*11:01",
+      "tra_cdr3": null,
+      "trb_cdr3": "CASSQDRGYEQYF",
+      "similarity": 0.5,
+      "evidence": "functional assay",
+      "score": 75.0,
+      "raw_score": 75,
+      "score_category": "Medium",
+      "explanation": "same HLA +20; same mutation/gene +15; functional assay evidence +30; literature PMID available +10"
+    },
+    {
+      "identifier": "VDJDB-KRAS-G12V-001",
+      "source": "VDJdb",
+      "peptide": "VVVGADGVGK",
+      "epitope": "VVVGAVGVGK",
+      "hla": "HLA-A*11:01",
+      "tra_cdr3": "CAVRDSNYQLIW",
+      "trb_cdr3": "CASSLGQDTQYF",
+      "similarity": 0.9,
+      "evidence": "functional assay",
+      "score": 55.0,
+      "raw_score": 55,
+      "score_category": "Medium",
+      "explanation": "same HLA +20; same antigen family +5; functional assay evidence +30"
+    },
+    {
+      "identifier": "TCR3D-KRAS-LIKE-001",
+      "source": "TCR3D",
+      "peptide": "VVVGADGVGK",
+      "epitope": "VVVGACGVGK",
+      "hla": "HLA-A*11:01",
+      "tra_cdr3": "CALSDRGSTLGRLYF",
+      "trb_cdr3": "CASSPPSGGYNEQFF",
+      "similarity": 0.9,
+      "evidence": "structure available",
+      "score": 45.0,
+      "raw_score": 45,
+      "score_category": "Low",
+      "explanation": "same HLA +20; same antigen family +5; structure available +20"
+    }
+  ]
+}

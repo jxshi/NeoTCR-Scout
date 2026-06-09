@@ -1,0 +1,11 @@
+project: KRAS_G12V_HLA_A0301
+gene: KRAS
+mutation: G12V
+protein_sequence: MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQV
+hla:
+  - HLA-A*03:01
+peptide_lengths:
+  - 8
+  - 9
+  - 10
+  - 11

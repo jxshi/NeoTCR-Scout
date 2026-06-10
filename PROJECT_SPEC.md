@@ -30,6 +30,7 @@ This repository is intended for academic research workflows. External predictors
 - NetMHCpan and MHCflurry must only be used by users who have obtained the appropriate rights from the original authors.
 - Database snapshots must record source URL, access date, license/terms, checksum, and normalization script.
 - Reports must preserve provenance so users can trace every candidate TCR back to a source record or adapter.
+- v0.1 seed evidence adapters include VDJdb, IEDB, TCR3D, and NeoTCR-style local curated rows, all normalized to the shared `TCREvidence` schema.
 
 ## v0.1 minimum viable workflow
 
@@ -74,7 +75,7 @@ Generate 8-11mer mutant peptides
       ↓
 Predict MHC binding or record a licensed-tool fallback/provenance status
       ↓
-Search local VDJdb-style evidence
+Search local VDJdb/IEDB/TCR3D/NeoTCR-style evidence
       ↓
 Rank and write candidate TCR evidence
       ↓

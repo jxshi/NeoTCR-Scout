@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from neotcr_scout.input import normalize_hla
-from neotcr_scout.models import TCREvidence, TCREntry
+from neotcr_scout.models import TCREvidence
 
 VDJDB_SEED = [
     TCREvidence(
@@ -45,17 +45,17 @@ VDJDB_SEED = [
 ]
 
 
-def search_vdjdb(peptide: str, hla: str) -> list[TCREntry]:
+def search_vdjdb(peptide: str, hla: str) -> list[TCREvidence]:
     """Search VDJdb-style records by exact/near peptide and normalized HLA."""
 
     normalized_hla = normalize_hla(hla)
-    entries: list[TCREntry] = []
+    hits: list[TCREvidence] = []
     for evidence in VDJDB_SEED:
         if evidence.hla and normalize_hla(evidence.hla) != normalized_hla:
             continue
         if _within_two_mismatches(peptide, evidence.epitope):
-            entries.append(TCREntry.from_evidence(evidence, identifier=str(evidence.metadata.get("identifier"))))
-    return entries
+            hits.append(evidence)
+    return hits
 
 
 def _within_two_mismatches(left: str, right: str) -> bool:

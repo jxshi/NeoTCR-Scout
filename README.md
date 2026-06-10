@@ -119,7 +119,7 @@ Mutation-to-peptide engine
    ↓
 NetMHCpan/MHCflurry adapter or explicit fallback provenance
    ↓
-VDJdb / IEDB / TCR3D / local evidence adapters
+VDJdb / IEDB / TCR3D / NeoTCR / local evidence adapters
    ↓
 Exact, one-mismatch, two-mismatch, Levenshtein, and BLOSUM62 similarity checks
    ↓
@@ -167,7 +167,7 @@ The project boundary and milestone plan are defined in `PROJECT_SPEC.md`. Contri
 
 ## Citation
 
-NeoTCR-Scout is an orchestration workflow. When using it in research, cite this repository and cite the original resources used by your run, including NetMHCpan, MHCflurry, VDJdb, IEDB, TCR3D, and any downloaded local database snapshots.
+NeoTCR-Scout is an orchestration workflow. When using it in research, cite this repository and cite the original resources used by your run, including NetMHCpan, MHCflurry, VDJdb, IEDB, TCR3D, NeoTCR-style local curated data, and any downloaded local database snapshots.
 
 Until a formal publication or DOI exists, cite the repository URL and commit hash used for the analysis.
 

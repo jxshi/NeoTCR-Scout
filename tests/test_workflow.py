@@ -9,8 +9,15 @@ from neotcr_scout import (
     rank_tcr_candidates,
     search_tcr_database,
 )
+from neotcr_scout.database import (
+    search_iedb,
+    search_neotcr,
+    search_tcr3d,
+    search_tcr_evidence,
+    search_vdjdb,
+)
 from neotcr_scout.input import ProjectInput
-from neotcr_scout.models import TCREntry
+from neotcr_scout.models import TCREntry, TCREvidence
 from neotcr_scout.relationship import related_mutations
 from neotcr_scout.scoring import score_tcr_entry
 from neotcr_scout.similarity import (
@@ -234,6 +241,57 @@ def test_similarity_metrics_and_match_types():
     assert one_mismatch_peptide_match("AAA", "AAV")
     assert two_mismatch_peptide_match("AAA", "AVV")
     assert blosum62_score("VVV", "VVV") > blosum62_score("VVV", "DDD")
+
+
+def test_database_adapters_return_normalized_tcr_evidence_by_peptide_and_hla():
+    required_fields = {
+        "source",
+        "epitope",
+        "hla",
+        "tra_cdr3",
+        "trb_cdr3",
+        "trbv",
+        "trbj",
+        "organism",
+        "disease",
+        "assay",
+        "pubmed_id",
+        "url",
+        "evidence_level",
+    }
+    adapter_cases = [
+        (search_vdjdb, "VVGADGVGK", "A1101", "VDJdb"),
+        (search_iedb, "GADGVGKSAL", "HLA-A*11:01", "IEDB"),
+        (search_tcr3d, "VVVGADGVGK", "HLA-A1101", "TCR3D"),
+        (search_neotcr, "VVVGADGVGK", "A*11:01", "NeoTCR"),
+    ]
+
+    for adapter, peptide, hla, source in adapter_cases:
+        hits = adapter(peptide, hla)
+        assert hits, f"{source} adapter should return a fixture hit"
+        assert all(isinstance(hit, TCREvidence) for hit in hits)
+        assert all(hit.source == source for hit in hits)
+        assert all(hit.hla == "HLA-A*11:01" for hit in hits)
+        for hit in hits:
+            payload = hit.to_dict()
+            assert required_fields <= set(payload)
+            assert payload["source"]
+            assert payload["epitope"]
+            assert payload["hla"]
+            assert payload["organism"]
+            assert payload["disease"]
+            assert payload["assay"]
+            assert payload["url"]
+            assert payload["evidence_level"]
+
+
+def test_unified_evidence_search_includes_all_seed_adapters_with_query_provenance():
+    hits = search_tcr_evidence("VVVGADGVGK", "hla-a1101")
+    sources = {hit.source for hit in hits}
+
+    assert {"VDJdb", "IEDB", "TCR3D", "NeoTCR"} <= sources
+    assert all(hit.metadata["query_peptide"] == "VVVGADGVGK" for hit in hits)
+    assert all(hit.metadata["query_hla"] == "hla-a1101" for hit in hits)
 
 
 def test_core_function_pipeline_returns_ranked_candidates():

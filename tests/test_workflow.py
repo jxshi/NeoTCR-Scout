@@ -64,6 +64,54 @@ def test_invalid_input_has_clear_error_message():
         raise AssertionError("invalid peptide_lengths should fail validation")
 
 
+def test_project_input_is_pydantic_schema_with_expected_fields():
+    import pydantic
+
+    assert issubclass(ProjectInput, pydantic.BaseModel)
+    schema = ProjectInput.model_json_schema()
+    assert set(schema["properties"]) == {
+        "project",
+        "gene",
+        "mutation",
+        "protein_sequence",
+        "hla",
+        "peptide_lengths",
+    }
+    assert set(schema["required"]) == {"project", "gene", "mutation", "hla"}
+
+
+def test_project_input_defaults_and_clear_validation_errors():
+    defaulted = ProjectInput.from_mapping({
+        "project": "quick",
+        "gene": "KRAS",
+        "mutation": "G12D",
+        "hla": "hla-a1101",
+    })
+    assert defaulted.peptide_lengths == [8, 9, 10, 11]
+    assert defaulted.hla == ["HLA-A*11:01"]
+
+    invalid_cases = [
+        ({"project": "x", "gene": "KRAS", "mutation": "12D", "hla": "A1101"}, "AA + position + AA"),
+        ({"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": []}, "hla must include at least one allele"),
+        ({"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": "DRB1*04:01"}, "Invalid HLA allele"),
+        (
+            {"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": "A1101", "peptide_lengths": "9"},
+            "peptide_lengths must be a list",
+        ),
+        (
+            {"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": "A1101", "protein_sequence": "MTEY*"},
+            "protein_sequence contains invalid",
+        ),
+    ]
+    for raw, message in invalid_cases:
+        try:
+            ProjectInput.from_mapping(raw)
+        except ValueError as exc:
+            assert message in str(exc)
+        else:
+            raise AssertionError(f"invalid input should fail validation: {raw}")
+
+
 def test_generate_kras_g12d_peptides_contains_expected_annotations():
     mutation = parse_mutation("G12D")
     assert mutation.position == 12
@@ -117,6 +165,56 @@ def test_generate_kras_g12d_accepts_already_mutant_sequence():
     assert annotated.wildtype_peptide == "VVVGAGGVGK"
     assert annotated.mutant_peptide == "VVVGADGVGK"
     assert annotated.sequence_context == "input_sequence_already_mutant"
+
+
+def test_generate_kras_g12d_peptides_reports_required_fields_for_8_to_11mers():
+    peptides = generate_mutant_peptides(
+        gene="KRAS",
+        mutation="G12D",
+        wt_sequence="MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQV",
+        lengths=[8, 9, 10, 11],
+    )
+
+    assert {peptide.length for peptide in peptides} == {8, 9, 10, 11}
+    assert peptides
+    for peptide in peptides:
+        assert peptide.sequence == peptide.mutant_peptide
+        assert len(peptide.sequence) == peptide.length
+        assert len(peptide.wildtype_peptide) == peptide.length
+        assert len(peptide.mutant_peptide) == peptide.length
+        assert peptide.wildtype_peptide != peptide.mutant_peptide
+        assert peptide.mutation_position == peptide.mutation_index + 1
+        assert 1 <= peptide.mutation_position <= peptide.length
+        assert peptide.wildtype_peptide[peptide.mutation_index] == "G"
+        assert peptide.mutant_peptide[peptide.mutation_index] == "D"
+        assert peptide.flanking_context
+
+
+def test_generate_mutant_peptides_handles_terminal_and_custom_mutations():
+    sequence = "ACDEFGHIKLMNPQRSTVWY"
+
+    n_terminal = generate_mutant_peptides("GENE1", "A1C", sequence, lengths=[8, 9, 10, 11])
+    assert {peptide.length for peptide in n_terminal} == {8, 9, 10, 11}
+    assert all(peptide.mutation_position == 1 for peptide in n_terminal)
+    assert all(peptide.wildtype_peptide[0] == "A" for peptide in n_terminal)
+    assert all(peptide.mutant_peptide[0] == "C" for peptide in n_terminal)
+
+    c_terminal = generate_mutant_peptides("GENE2", "Y20F", sequence, lengths=[8, 9, 10, 11])
+    assert {peptide.length for peptide in c_terminal} == {8, 9, 10, 11}
+    assert all(peptide.mutation_position == peptide.length for peptide in c_terminal)
+    assert all(peptide.wildtype_peptide[-1] == "Y" for peptide in c_terminal)
+    assert all(peptide.mutant_peptide[-1] == "F" for peptide in c_terminal)
+
+
+def test_generate_mutant_peptides_defaults_empty_lengths_to_8_to_11mers():
+    peptides = generate_mutant_peptides(
+        gene="KRAS",
+        mutation="G12D",
+        wt_sequence="MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQV",
+        lengths=[],
+    )
+
+    assert {peptide.length for peptide in peptides} == {8, 9, 10, 11}
 
 
 def test_generate_mutant_peptides_rejects_invalid_mutation_inputs():

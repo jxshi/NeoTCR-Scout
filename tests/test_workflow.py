@@ -9,12 +9,20 @@ from neotcr_scout import (
     rank_tcr_candidates,
     search_tcr_database,
 )
+from neotcr_scout.database import (
+    search_iedb,
+    search_neotcr,
+    search_tcr3d,
+    search_tcr_evidence,
+    search_vdjdb,
+)
 from neotcr_scout.input import ProjectInput
-from neotcr_scout.models import TCREntry
+from neotcr_scout.models import TCREntry, TCREvidence
 from neotcr_scout.relationship import related_mutations
 from neotcr_scout.scoring import score_tcr_entry
 from neotcr_scout.similarity import (
     blosum62_score,
+    build_similarity_hit,
     exact_peptide_match,
     levenshtein_distance,
     normalized_similarity,
@@ -62,6 +70,54 @@ def test_invalid_input_has_clear_error_message():
         assert "peptide_lengths must be a list" in str(exc)
     else:
         raise AssertionError("invalid peptide_lengths should fail validation")
+
+
+def test_project_input_is_pydantic_schema_with_expected_fields():
+    import pydantic
+
+    assert issubclass(ProjectInput, pydantic.BaseModel)
+    schema = ProjectInput.model_json_schema()
+    assert set(schema["properties"]) == {
+        "project",
+        "gene",
+        "mutation",
+        "protein_sequence",
+        "hla",
+        "peptide_lengths",
+    }
+    assert set(schema["required"]) == {"project", "gene", "mutation", "hla"}
+
+
+def test_project_input_defaults_and_clear_validation_errors():
+    defaulted = ProjectInput.from_mapping({
+        "project": "quick",
+        "gene": "KRAS",
+        "mutation": "G12D",
+        "hla": "hla-a1101",
+    })
+    assert defaulted.peptide_lengths == [8, 9, 10, 11]
+    assert defaulted.hla == ["HLA-A*11:01"]
+
+    invalid_cases = [
+        ({"project": "x", "gene": "KRAS", "mutation": "12D", "hla": "A1101"}, "AA + position + AA"),
+        ({"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": []}, "hla must include at least one allele"),
+        ({"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": "DRB1*04:01"}, "Invalid HLA allele"),
+        (
+            {"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": "A1101", "peptide_lengths": "9"},
+            "peptide_lengths must be a list",
+        ),
+        (
+            {"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": "A1101", "protein_sequence": "MTEY*"},
+            "protein_sequence contains invalid",
+        ),
+    ]
+    for raw, message in invalid_cases:
+        try:
+            ProjectInput.from_mapping(raw)
+        except ValueError as exc:
+            assert message in str(exc)
+        else:
+            raise AssertionError(f"invalid input should fail validation: {raw}")
 
 
 def test_generate_kras_g12d_peptides_contains_expected_annotations():
@@ -119,6 +175,56 @@ def test_generate_kras_g12d_accepts_already_mutant_sequence():
     assert annotated.sequence_context == "input_sequence_already_mutant"
 
 
+def test_generate_kras_g12d_peptides_reports_required_fields_for_8_to_11mers():
+    peptides = generate_mutant_peptides(
+        gene="KRAS",
+        mutation="G12D",
+        wt_sequence="MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQV",
+        lengths=[8, 9, 10, 11],
+    )
+
+    assert {peptide.length for peptide in peptides} == {8, 9, 10, 11}
+    assert peptides
+    for peptide in peptides:
+        assert peptide.sequence == peptide.mutant_peptide
+        assert len(peptide.sequence) == peptide.length
+        assert len(peptide.wildtype_peptide) == peptide.length
+        assert len(peptide.mutant_peptide) == peptide.length
+        assert peptide.wildtype_peptide != peptide.mutant_peptide
+        assert peptide.mutation_position == peptide.mutation_index + 1
+        assert 1 <= peptide.mutation_position <= peptide.length
+        assert peptide.wildtype_peptide[peptide.mutation_index] == "G"
+        assert peptide.mutant_peptide[peptide.mutation_index] == "D"
+        assert peptide.flanking_context
+
+
+def test_generate_mutant_peptides_handles_terminal_and_custom_mutations():
+    sequence = "ACDEFGHIKLMNPQRSTVWY"
+
+    n_terminal = generate_mutant_peptides("GENE1", "A1C", sequence, lengths=[8, 9, 10, 11])
+    assert {peptide.length for peptide in n_terminal} == {8, 9, 10, 11}
+    assert all(peptide.mutation_position == 1 for peptide in n_terminal)
+    assert all(peptide.wildtype_peptide[0] == "A" for peptide in n_terminal)
+    assert all(peptide.mutant_peptide[0] == "C" for peptide in n_terminal)
+
+    c_terminal = generate_mutant_peptides("GENE2", "Y20F", sequence, lengths=[8, 9, 10, 11])
+    assert {peptide.length for peptide in c_terminal} == {8, 9, 10, 11}
+    assert all(peptide.mutation_position == peptide.length for peptide in c_terminal)
+    assert all(peptide.wildtype_peptide[-1] == "Y" for peptide in c_terminal)
+    assert all(peptide.mutant_peptide[-1] == "F" for peptide in c_terminal)
+
+
+def test_generate_mutant_peptides_defaults_empty_lengths_to_8_to_11mers():
+    peptides = generate_mutant_peptides(
+        gene="KRAS",
+        mutation="G12D",
+        wt_sequence="MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQV",
+        lengths=[],
+    )
+
+    assert {peptide.length for peptide in peptides} == {8, 9, 10, 11}
+
+
 def test_generate_mutant_peptides_rejects_invalid_mutation_inputs():
     for mutation in ["12D", "B12D", "G12G"]:
         try:
@@ -132,10 +238,105 @@ def test_generate_mutant_peptides_rejects_invalid_mutation_inputs():
 def test_similarity_metrics_and_match_types():
     assert levenshtein_distance("VVVGADGVGK", "VVVGACGVGK") == 1
     assert normalized_similarity("VVVGADGVGK", "VVVGACGVGK") == 0.9
-    assert exact_peptide_match("AAA", "AAA")
+    assert exact_peptide_match(" aaa ", "AAA")
     assert one_mismatch_peptide_match("AAA", "AAV")
     assert two_mismatch_peptide_match("AAA", "AVV")
     assert blosum62_score("VVV", "VVV") > blosum62_score("VVV", "DDD")
+
+
+def test_similarity_hits_capture_kras_g12d_related_mutation_examples():
+    query = "VVVGADGVGK"
+    kras_g12v = "VVVGAVGVGK"
+    kras_g13d = "VVVGAGDVGK"
+
+    assert one_mismatch_peptide_match(query, kras_g12v)
+    assert two_mismatch_peptide_match(query, kras_g13d)
+    assert levenshtein_distance(query, kras_g12v) == 1
+    assert levenshtein_distance(query, kras_g13d) == 2
+    assert normalized_similarity(query, kras_g12v) == 0.9
+    assert normalized_similarity(query, kras_g13d) == 0.8
+    assert blosum62_score(query, kras_g12v) > blosum62_score(query, kras_g13d)
+
+    g12v_hit = build_similarity_hit(
+        query_peptide=query,
+        matched_epitope=kras_g12v,
+        query_hla="hla-a1101",
+        matched_hla="HLA-A*11:01",
+        source="KRAS G12V",
+        mutation_index=5,
+    )
+    assert g12v_hit.query_peptide == query
+    assert g12v_hit.matched_epitope == kras_g12v
+    assert g12v_hit.distance == 1
+    assert g12v_hit.similarity_score == 0.9
+    assert g12v_hit.mutation_site_match == "no"
+    assert g12v_hit.same_hla == "yes"
+    assert g12v_hit.source == "KRAS G12V"
+
+    g13d_hit = build_similarity_hit(
+        query_peptide=query,
+        matched_epitope=kras_g13d,
+        query_hla="HLA-A*11:01",
+        matched_hla="HLA-A*03:01",
+        source="KRAS G13D",
+        mutation_index=5,
+    )
+    assert g13d_hit.distance == 2
+    assert g13d_hit.similarity_score == 0.8
+    assert g13d_hit.mutation_site_match == "no"
+    assert g13d_hit.same_hla == "no"
+    assert g13d_hit.source == "KRAS G13D"
+
+
+def test_database_adapters_return_normalized_tcr_evidence_by_peptide_and_hla():
+    required_fields = {
+        "source",
+        "epitope",
+        "hla",
+        "tra_cdr3",
+        "trb_cdr3",
+        "trbv",
+        "trbj",
+        "organism",
+        "disease",
+        "assay",
+        "pubmed_id",
+        "url",
+        "evidence_level",
+    }
+    adapter_cases = [
+        (search_vdjdb, "VVGADGVGK", "A1101", "VDJdb"),
+        (search_iedb, "GADGVGKSAL", "HLA-A*11:01", "IEDB"),
+        (search_tcr3d, "VVVGADGVGK", "HLA-A1101", "TCR3D"),
+        (search_neotcr, "VVVGADGVGK", "A*11:01", "NeoTCR"),
+    ]
+
+    for adapter, peptide, hla, source in adapter_cases:
+        hits = adapter(peptide, hla)
+        assert hits, f"{source} adapter should return a fixture hit"
+        assert all(isinstance(hit, TCREvidence) for hit in hits)
+        assert all(hit.source == source for hit in hits)
+        assert all(hit.hla == "HLA-A*11:01" for hit in hits)
+        for hit in hits:
+            payload = hit.to_dict()
+            assert required_fields <= set(payload)
+            assert payload["source"]
+            assert payload["epitope"]
+            assert payload["hla"]
+            assert payload["organism"]
+            assert payload["disease"]
+            assert payload["assay"]
+            assert payload["url"]
+            assert payload["evidence_level"]
+
+
+def test_unified_evidence_search_includes_all_seed_adapters_with_query_provenance():
+    hits = search_tcr_evidence("VVVGADGVGK", "hla-a1101")
+    sources = {hit.source for hit in hits}
+
+    assert {"VDJdb", "IEDB", "TCR3D", "NeoTCR"} <= sources
+    assert all(hit.metadata["query_peptide"] == "VVVGADGVGK" for hit in hits)
+    assert all(hit.metadata["query_hla"] == "hla-a1101" for hit in hits)
 
 
 def test_core_function_pipeline_returns_ranked_candidates():

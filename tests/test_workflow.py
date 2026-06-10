@@ -478,9 +478,28 @@ def test_workflow_writes_requested_artifacts_and_reports(tmp_path: Path):
     assert "KRAS	G12D	KRAS	G12V	KRAS G12V	RAS	data/mutation_groups/ras.yaml" in similar_mutations
     assert result.tcr_candidates
     report_md = (tmp_path / "report.md").read_text(encoding="utf-8")
-    assert "Experimental planning suggestions" in report_md
+    expected_sections = [
+        "## 1. Project summary",
+        "## 2. Input mutation & HLA",
+        "## 3. Generated neoantigen peptides",
+        "## 4. MHC binding summary",
+        "## 5. Exact TCR database hits",
+        "## 6. Similar peptide / related mutation hits",
+        "## 7. Evidence score table",
+        "## 8. Experimental planning suggestions",
+        "## 9. Limitations & warnings",
+    ]
+    for section in expected_sections:
+        assert section in report_md
+    assert "### Curated related mutations" in report_md
+    assert "KRAS G12V" in report_md
+    assert "Synthesize top-ranked mutant peptide candidates" in report_md
+    assert "Perform focused cross-reactivity testing" in report_md
     assert "TCR cross-reactivity must be experimentally tested" in report_md
-    assert "NeoTCR-Scout report" in (tmp_path / "report.html").read_text(encoding="utf-8")
+    report_html = (tmp_path / "report.html").read_text(encoding="utf-8")
+    assert "NeoTCR-Scout report" in report_html
+    assert "Input mutation &amp; HLA" in report_html
+    assert "Limitations &amp; warnings" in report_html
 
 
 def test_quick_run_without_protein_sequence_uses_builtin_kras_reference(tmp_path: Path):

@@ -4,13 +4,14 @@ from .database import search_tcr_database
 from .input import ProjectInput, ScoutProject, load_project, normalize_hla
 from .mhc_binding import predict_mhc_binding
 from .neoantigen import annotate_peptide_window, apply_mutation, generate_mutant_peptides, parse_mutation
-from .relationship import related_mutations
+from .relationship import RelatedMutation, related_mutation_records, related_mutations
 from .report import generate_html_report, generate_markdown_report
 from .scoring import rank_tcr_candidates, score_tcr_entry
 from .workflow import WorkflowResult, run_project, run_validated_project
 
 __all__ = [
     "ProjectInput",
+    "RelatedMutation",
     "ScoutProject",
     "WorkflowResult",
     "annotate_peptide_window",
@@ -23,6 +24,7 @@ __all__ = [
     "parse_mutation",
     "predict_mhc_binding",
     "rank_tcr_candidates",
+    "related_mutation_records",
     "related_mutations",
     "run_project",
     "run_validated_project",

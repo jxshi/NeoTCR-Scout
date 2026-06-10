@@ -6,11 +6,23 @@ from dataclasses import dataclass
 
 from neotcr_scout.input import normalize_hla
 from neotcr_scout.models import TCREntry
-from neotcr_scout.similarity import normalized_similarity
+from neotcr_scout.similarity import exact_peptide_match, normalized_similarity
 
 ANTIGEN_GROUPS = {
     "RAS": {"KRAS", "NRAS", "HRAS"},
     "TP53": {"TP53"},
+}
+
+SCORE_RULES = {
+    "same_peptide": 50,
+    "same_hla": 20,
+    "same_mutation_gene": 15,
+    "same_protein_family": 5,
+    "functional_assay": 30,
+    "tetramer_evidence": 20,
+    "clinical_evidence": 50,
+    "structure_available": 20,
+    "literature_pmid": 10,
 }
 
 
@@ -40,37 +52,43 @@ def score_tcr_entry(entry: TCREntry) -> TCRCandidate:
     query_mutation = str(entry.metadata.get("query_mutation", ""))
     entry_gene = str(entry.metadata.get("gene", ""))
     entry_mutation = str(entry.metadata.get("mutation", ""))
-    evidence_text = " ".join(str(value or "") for value in [entry.evidence, entry.metadata.get("assay"), entry.metadata.get("evidence_level")]).lower()
+    evidence_text = " ".join(
+        str(value or "")
+        for value in [entry.evidence, entry.metadata.get("assay"), entry.metadata.get("evidence_level")]
+    ).lower()
 
     raw_score = 0
     reasons: list[str] = []
-    if query_peptide == entry.epitope:
-        raw_score += 50
-        reasons.append("same peptide +50")
+
+    def add_rule(rule: str, explanation: str) -> None:
+        nonlocal raw_score
+        points = SCORE_RULES[rule]
+        raw_score += points
+        reasons.append(f"{explanation} +{points}")
+
+    if exact_peptide_match(query_peptide, entry.epitope):
+        add_rule("same_peptide", "same peptide")
     if query_hla and entry.hla and _same_hla(str(query_hla), entry.hla):
-        raw_score += 20
-        reasons.append("same HLA +20")
-    if query_gene and query_mutation and query_gene == entry_gene and query_mutation == entry_mutation:
-        raw_score += 15
-        reasons.append("same mutation/gene +15")
-    elif query_gene and entry_gene and _same_antigen_group(query_gene, entry_gene):
-        raw_score += 5
-        reasons.append("same antigen family +5")
+        add_rule("same_hla", "same HLA")
+    if (
+        query_gene
+        and query_mutation
+        and query_gene.upper() == entry_gene.upper()
+        and query_mutation.upper() == entry_mutation.upper()
+    ):
+        add_rule("same_mutation_gene", "same mutation/gene")
+    if query_gene and entry_gene and _same_antigen_group(query_gene, entry_gene):
+        add_rule("same_protein_family", "same protein family")
     if "functional" in evidence_text or "activation" in evidence_text:
-        raw_score += 30
-        reasons.append("functional assay evidence +30")
+        add_rule("functional_assay", "functional assay")
     if "tetramer" in evidence_text:
-        raw_score += 20
-        reasons.append("tetramer evidence +20")
+        add_rule("tetramer_evidence", "tetramer evidence")
     if "clinical" in evidence_text:
-        raw_score += 50
-        reasons.append("clinical evidence +50")
+        add_rule("clinical_evidence", "clinical evidence")
     if entry.metadata.get("structure_id") or "structure" in evidence_text:
-        raw_score += 20
-        reasons.append("structure available +20")
+        add_rule("structure_available", "structure available")
     if entry.metadata.get("pubmed_id"):
-        raw_score += 10
-        reasons.append("literature PMID available +10")
+        add_rule("literature_pmid", "literature PMID")
 
     return TCRCandidate(
         identifier=entry.identifier,

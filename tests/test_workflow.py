@@ -9,8 +9,12 @@ from neotcr_scout import (
     rank_tcr_candidates,
     search_tcr_database,
 )
+from neotcr_scout.database.iedb import search_iedb
+from neotcr_scout.database.neotcr import search_neotcr
+from neotcr_scout.database.tcr3d import search_tcr3d
+from neotcr_scout.database.vdjdb import search_vdjdb
 from neotcr_scout.input import ProjectInput
-from neotcr_scout.models import TCREntry
+from neotcr_scout.models import TCREntry, TCREvidence
 from neotcr_scout.relationship import related_mutations
 from neotcr_scout.scoring import score_tcr_entry
 from neotcr_scout.similarity import (
@@ -149,6 +153,55 @@ def test_core_function_pipeline_returns_ranked_candidates():
     assert ranked[0].explanation
 
 
+def test_database_adapters_return_normalized_tcr_evidence():
+    adapters = [
+        ("VDJdb", search_vdjdb, "VVGADGVGK"),
+        ("IEDB", search_iedb, "VVVGADGVGK"),
+        ("TCR3D", search_tcr3d, "VVVGACGVGK"),
+        ("NeoTCR", search_neotcr, "VVVGADGVGK"),
+    ]
+    required_fields = [
+        "source",
+        "epitope",
+        "hla",
+        "tra_cdr3",
+        "trb_cdr3",
+        "trbv",
+        "trbj",
+        "organism",
+        "disease",
+        "assay",
+        "pubmed_id",
+        "url",
+        "evidence_level",
+    ]
+    for expected_source, adapter, peptide in adapters:
+        hits = adapter(peptide, "A1101")
+        assert hits, f"{expected_source} adapter should return at least one fixture hit"
+        evidence = hits[0]
+        assert isinstance(evidence, TCREvidence)
+        assert evidence.source == expected_source
+        assert evidence.hla == "HLA-A*11:01"
+        evidence_dict = evidence.to_dict()
+        for field in required_fields:
+            assert hasattr(evidence, field)
+            assert field in evidence_dict
+
+
+def test_database_adapters_filter_by_hla():
+    adapters = [search_vdjdb, search_iedb, search_tcr3d, search_neotcr]
+    for adapter in adapters:
+        assert adapter("VVVGADGVGK", "HLA-A*02:01") == []
+
+
+def test_unified_database_search_includes_all_adapters_as_entries():
+    hits = search_tcr_database("VVVGADGVGK", "HLA-A*11:01")
+    sources = {hit.source for hit in hits}
+    assert {"VDJdb", "IEDB", "TCR3D", "NeoTCR"}.issubset(sources)
+    assert all(isinstance(hit, TCREntry) for hit in hits)
+    assert all(hit.metadata["query_peptide"] == "VVVGADGVGK" for hit in hits)
+
+
 def test_evidence_scoring_rules_are_transparent():
     entry = TCREntry(
         identifier="demo",
@@ -202,6 +255,9 @@ def test_workflow_writes_requested_artifacts_and_reports(tmp_path: Path):
     assert "Experimental planning suggestions" in report_md
     assert "TCR cross-reactivity must be experimentally tested" in report_md
     assert "NeoTCR-Scout report" in (tmp_path / "report.html").read_text(encoding="utf-8")
+    tcr_hits_header = (tmp_path / "tcr_hits.tsv").read_text(encoding="utf-8").splitlines()[0].split("\t")
+    for field in ["organism", "disease", "assay"]:
+        assert field in tcr_hits_header
 
 
 def test_quick_run_without_protein_sequence_uses_builtin_kras_reference(tmp_path: Path):

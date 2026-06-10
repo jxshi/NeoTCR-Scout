@@ -134,6 +134,12 @@ class TCREntry:
             metadata["mutation"] = evidence.mutation
         if evidence.structure_id:
             metadata["structure_id"] = evidence.structure_id
+        if evidence.organism:
+            metadata["organism"] = evidence.organism
+        if evidence.disease:
+            metadata["disease"] = evidence.disease
+        if evidence.assay:
+            metadata["assay"] = evidence.assay
         return cls(
             identifier=identifier or str(metadata.get("identifier") or f"{evidence.source}:{evidence.epitope}"),
             tra_cdr3=evidence.tra_cdr3,

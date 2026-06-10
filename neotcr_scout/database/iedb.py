@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from neotcr_scout.input import normalize_hla
-from neotcr_scout.models import TCREvidence, TCREntry
+from neotcr_scout.models import TCREvidence
 
 IEDB_SEED = [
     TCREvidence(
@@ -27,14 +27,16 @@ IEDB_SEED = [
 ]
 
 
-def search_iedb(peptide: str, hla: str) -> list[TCREntry]:
+def search_iedb(peptide: str, hla: str) -> list[TCREvidence]:
+    """Search IEDB receptor-style records by peptide core and normalized HLA."""
+
     normalized_hla = normalize_hla(hla)
-    hits: list[TCREntry] = []
+    hits: list[TCREvidence] = []
     for evidence in IEDB_SEED:
         if evidence.hla and normalize_hla(evidence.hla) != normalized_hla:
             continue
         if _shared_core(evidence.epitope, peptide):
-            hits.append(TCREntry.from_evidence(evidence, identifier=str(evidence.metadata.get("identifier"))))
+            hits.append(evidence)
     return hits
 
 

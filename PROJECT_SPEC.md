@@ -118,6 +118,20 @@ Outputs:
 - `report.md`
 - `report.html`
 
+Rule-based evidence scoring:
+
+- same peptide: +50
+- same HLA: +20
+- same mutation/gene: +15
+- same protein family: +5
+- functional assay: +30
+- tetramer evidence: +20
+- clinical evidence: +50
+- structure available: +20
+- literature PMID: +10
+
+Each scored candidate must include the raw score, score category, and human-readable explanation.
+
 Success criteria:
 
 - A wet-lab or computational biology user can run the KRAS G12D demo in minutes.

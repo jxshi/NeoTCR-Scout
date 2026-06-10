@@ -333,6 +333,98 @@ def test_evidence_scoring_rules_are_transparent():
     assert "same peptide +50" in scored.explanation
 
 
+def test_evidence_scoring_applies_all_declared_rules_exactly():
+    entry = TCREntry(
+        identifier="all-rules",
+        tra_cdr3="CAVTEST",
+        trb_cdr3="CASSTEST",
+        v_gene="TRBV1",
+        j_gene="TRBJ1",
+        epitope="VVVGADGVGK",
+        hla="HLA-A*11:01",
+        source="NeoTCR",
+        evidence="functional assay; tetramer evidence; clinical evidence; structure available",
+        metadata={
+            "query_peptide": "VVVGADGVGK",
+            "query_hla": "A1101",
+            "query_gene": "KRAS",
+            "query_mutation": "G12D",
+            "gene": "KRAS",
+            "mutation": "G12D",
+            "structure_id": "demo-structure",
+            "pubmed_id": "123456",
+        },
+    )
+
+    scored = score_tcr_entry(entry)
+
+    assert scored.raw_score == 220
+    assert scored.score == 220.0
+    assert scored.score_category == "High"
+    for reason in [
+        "same peptide +50",
+        "same HLA +20",
+        "same mutation/gene +15",
+        "same protein family +5",
+        "functional assay +30",
+        "tetramer evidence +20",
+        "clinical evidence +50",
+        "structure available +20",
+        "literature PMID +10",
+    ]:
+        assert reason in scored.explanation
+
+
+def test_rank_tcr_candidates_places_highest_rule_based_score_first():
+    top = TCREntry(
+        identifier="top",
+        tra_cdr3=None,
+        trb_cdr3="CASSTOP",
+        v_gene="TRBV1",
+        j_gene="TRBJ1",
+        epitope="VVVGADGVGK",
+        hla="HLA-A*11:01",
+        source="NeoTCR",
+        evidence="functional assay; tetramer evidence; clinical evidence; structure available",
+        metadata={
+            "query_peptide": "VVVGADGVGK",
+            "query_hla": "HLA-A*11:01",
+            "query_gene": "KRAS",
+            "query_mutation": "G12D",
+            "gene": "KRAS",
+            "mutation": "G12D",
+            "structure_id": "demo-structure",
+            "pubmed_id": "123456",
+        },
+    )
+    lower = TCREntry(
+        identifier="lower",
+        tra_cdr3=None,
+        trb_cdr3="CASSLOW",
+        v_gene="TRBV2",
+        j_gene="TRBJ2",
+        epitope="VVVGAVGVGK",
+        hla="HLA-A*11:01",
+        source="VDJdb",
+        evidence="functional assay",
+        metadata={
+            "query_peptide": "VVVGADGVGK",
+            "query_hla": "HLA-A*11:01",
+            "query_gene": "KRAS",
+            "query_mutation": "G12D",
+            "gene": "KRAS",
+            "mutation": "G12V",
+        },
+    )
+
+    ranked = rank_tcr_candidates([lower, top])
+
+    assert ranked[0].identifier == "top"
+    assert ranked[0].raw_score == 220
+    assert ranked[1].identifier == "lower"
+    assert ranked[1].raw_score < ranked[0].raw_score
+
+
 def test_relationships_for_kras_g12d():
     related = related_mutations("KRAS", "G12D")
     assert "KRAS G12V" in related

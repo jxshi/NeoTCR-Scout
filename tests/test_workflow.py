@@ -64,6 +64,54 @@ def test_invalid_input_has_clear_error_message():
         raise AssertionError("invalid peptide_lengths should fail validation")
 
 
+def test_project_input_is_pydantic_schema_with_expected_fields():
+    import pydantic
+
+    assert issubclass(ProjectInput, pydantic.BaseModel)
+    schema = ProjectInput.model_json_schema()
+    assert set(schema["properties"]) == {
+        "project",
+        "gene",
+        "mutation",
+        "protein_sequence",
+        "hla",
+        "peptide_lengths",
+    }
+    assert set(schema["required"]) == {"project", "gene", "mutation", "hla"}
+
+
+def test_project_input_defaults_and_clear_validation_errors():
+    defaulted = ProjectInput.from_mapping({
+        "project": "quick",
+        "gene": "KRAS",
+        "mutation": "G12D",
+        "hla": "hla-a1101",
+    })
+    assert defaulted.peptide_lengths == [8, 9, 10, 11]
+    assert defaulted.hla == ["HLA-A*11:01"]
+
+    invalid_cases = [
+        ({"project": "x", "gene": "KRAS", "mutation": "12D", "hla": "A1101"}, "AA + position + AA"),
+        ({"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": []}, "hla must include at least one allele"),
+        ({"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": "DRB1*04:01"}, "Invalid HLA allele"),
+        (
+            {"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": "A1101", "peptide_lengths": "9"},
+            "peptide_lengths must be a list",
+        ),
+        (
+            {"project": "x", "gene": "KRAS", "mutation": "G12D", "hla": "A1101", "protein_sequence": "MTEY*"},
+            "protein_sequence contains invalid",
+        ),
+    ]
+    for raw, message in invalid_cases:
+        try:
+            ProjectInput.from_mapping(raw)
+        except ValueError as exc:
+            assert message in str(exc)
+        else:
+            raise AssertionError(f"invalid input should fail validation: {raw}")
+
+
 def test_generate_kras_g12d_peptides_contains_expected_annotations():
     mutation = parse_mutation("G12D")
     assert mutation.position == 12

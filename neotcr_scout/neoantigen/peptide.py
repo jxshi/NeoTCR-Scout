@@ -6,6 +6,7 @@ import re
 from dataclasses import dataclass
 
 AMINO_ACIDS = set("ACDEFGHIKLMNPQRSTVWY")
+DEFAULT_PEPTIDE_LENGTHS = (8, 9, 10, 11)
 MUTATION_RE = re.compile(r"^(?P<wt>[A-Z])(?P<position>[1-9][0-9]*)(?P<mut>[A-Z])$")
 
 
@@ -65,7 +66,7 @@ def apply_mutation(wt_sequence: str, mutation: str) -> tuple[str, str]:
     """
 
     parsed = parse_mutation(mutation)
-    sequence = wt_sequence.strip().upper()
+    sequence = _normalize_protein_sequence(wt_sequence)
     index = parsed.position - 1
     if index < 0 or index >= len(sequence):
         raise ValueError(f"Mutation {mutation} is outside the provided protein sequence")
@@ -102,6 +103,10 @@ def annotate_peptide_window(
     mutant_peptide = mutant_sequence[start:end]
     wildtype_peptide = wild_type_sequence[start:end]
     mutation_index = parsed.position - 1 - start
+    if mutation_index < 0 or mutation_index >= length:
+        raise ValueError(
+            f"Peptide window {start + 1}-{end} does not contain mutation position {parsed.position}"
+        )
     return MutantPeptide(
         gene=gene.upper(),
         mutation=parsed.label,
@@ -122,31 +127,29 @@ def generate_mutant_peptides(
     gene: str,
     mutation: str,
     wt_sequence: str,
-    lengths: list[int] | tuple[int, ...] = (8, 9, 10, 11),
+    lengths: list[int] | tuple[int, ...] | None = DEFAULT_PEPTIDE_LENGTHS,
 ) -> list[MutantPeptide]:
-    """Generate unique peptide windows containing the mutated residue."""
+    """Generate peptide windows of the requested lengths containing the mutated residue.
+
+    Each returned row preserves its window provenance even when repetitive
+    sequence context yields the same mutant peptide sequence at multiple
+    positions. By default, v0.1 emits 8-, 9-, 10-, and 11-mers.
+    """
 
     parsed = parse_mutation(mutation)
-    input_sequence = wt_sequence.strip().upper()
-    if not input_sequence:
-        raise ValueError("Protein sequence must not be empty")
+    input_sequence = _normalize_protein_sequence(wt_sequence)
     observed = input_sequence[parsed.position - 1] if 0 <= parsed.position - 1 < len(input_sequence) else None
     context = "input_sequence_already_mutant" if observed == parsed.mutant else "mutated_from_wildtype_sequence"
     wild_type_sequence, mutant_sequence = apply_mutation(input_sequence, parsed.label)
     index = parsed.position - 1
 
     peptides: list[MutantPeptide] = []
-    seen: set[str] = set()
     for length in _normalize_lengths(lengths):
-        if length <= 0 or length > len(mutant_sequence):
+        if length > len(mutant_sequence):
             continue
         min_start = max(0, index - length + 1)
         max_start = min(index, len(mutant_sequence) - length)
         for start in range(min_start, max_start + 1):
-            mutant_peptide = mutant_sequence[start : start + length]
-            if mutant_peptide in seen:
-                continue
-            seen.add(mutant_peptide)
             peptides.append(
                 annotate_peptide_window(
                     gene=gene,
@@ -161,10 +164,13 @@ def generate_mutant_peptides(
     return peptides
 
 
-def _normalize_lengths(lengths: list[int] | tuple[int, ...]) -> list[int]:
+def _normalize_lengths(lengths: list[int] | tuple[int, ...] | None) -> list[int]:
     """Return peptide lengths as integers with clear errors for bad inputs."""
 
+    if not lengths:
+        return list(DEFAULT_PEPTIDE_LENGTHS)
     normalized: list[int] = []
+    seen: set[int] = set()
     for value in lengths:
         try:
             length = int(value)
@@ -172,5 +178,20 @@ def _normalize_lengths(lengths: list[int] | tuple[int, ...]) -> list[int]:
             raise ValueError(f"peptide length {value!r} is not an integer") from exc
         if length <= 0:
             raise ValueError("peptide lengths must be positive integers")
-        normalized.append(length)
+        if length not in seen:
+            normalized.append(length)
+            seen.add(length)
+    return normalized
+
+
+def _normalize_protein_sequence(sequence: str) -> str:
+    """Return an uppercase protein sequence with clear validation errors."""
+
+    normalized = sequence.strip().upper().replace(" ", "")
+    if not normalized:
+        raise ValueError("Protein sequence must not be empty")
+    invalid = sorted(set(normalized) - AMINO_ACIDS)
+    if invalid:
+        invalid_text = "".join(invalid)
+        raise ValueError(f"Protein sequence contains invalid amino-acid code(s): {invalid_text}")
     return normalized

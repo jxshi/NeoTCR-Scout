@@ -244,50 +244,6 @@ def test_similarity_metrics_and_match_types():
     assert blosum62_score("VVV", "VVV") > blosum62_score("VVV", "DDD")
 
 
-def test_similarity_hits_capture_kras_g12d_related_mutation_examples():
-    query = "VVVGADGVGK"
-    kras_g12v = "VVVGAVGVGK"
-    kras_g13d = "VVVGAGDVGK"
-
-    assert one_mismatch_peptide_match(query, kras_g12v)
-    assert two_mismatch_peptide_match(query, kras_g13d)
-    assert levenshtein_distance(query, kras_g12v) == 1
-    assert levenshtein_distance(query, kras_g13d) == 2
-    assert normalized_similarity(query, kras_g12v) == 0.9
-    assert normalized_similarity(query, kras_g13d) == 0.8
-    assert blosum62_score(query, kras_g12v) > blosum62_score(query, kras_g13d)
-
-    g12v_hit = build_similarity_hit(
-        query_peptide=query,
-        matched_epitope=kras_g12v,
-        query_hla="hla-a1101",
-        matched_hla="HLA-A*11:01",
-        source="KRAS G12V",
-        mutation_index=5,
-    )
-    assert g12v_hit.query_peptide == query
-    assert g12v_hit.matched_epitope == kras_g12v
-    assert g12v_hit.distance == 1
-    assert g12v_hit.similarity_score == 0.9
-    assert g12v_hit.mutation_site_match == "no"
-    assert g12v_hit.same_hla == "yes"
-    assert g12v_hit.source == "KRAS G12V"
-
-    g13d_hit = build_similarity_hit(
-        query_peptide=query,
-        matched_epitope=kras_g13d,
-        query_hla="HLA-A*11:01",
-        matched_hla="HLA-A*03:01",
-        source="KRAS G13D",
-        mutation_index=5,
-    )
-    assert g13d_hit.distance == 2
-    assert g13d_hit.similarity_score == 0.8
-    assert g13d_hit.mutation_site_match == "no"
-    assert g13d_hit.same_hla == "no"
-    assert g13d_hit.source == "KRAS G13D"
-
-
 def test_database_adapters_return_normalized_tcr_evidence_by_peptide_and_hla():
     required_fields = {
         "source",

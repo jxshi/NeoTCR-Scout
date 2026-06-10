@@ -84,21 +84,6 @@ peptide_lengths:
 
 Input validation normalizes HLA forms such as `HLA-A*11:01`, `A*11:01`, and `HLA-A1101` to a consistent representation.
 
-### Input YAML schema
-
-The project input is defined as a Pydantic schema with these fields:
-
-| Field | Required | Validation |
-| --- | --- | --- |
-| `project` | yes | Non-empty project/run identifier. |
-| `gene` | yes | Normalized to uppercase. |
-| `mutation` | yes | Protein substitution in `AA + position + AA` form, for example `G12D`; amino acids must be canonical one-letter codes and wild-type/mutant residues must differ. |
-| `protein_sequence` | no | Optional protein sequence; normalized to uppercase and checked for canonical amino-acid codes. |
-| `hla` | yes | One HLA allele or a list of alleles; normalized consistently to `HLA-A*11:01` style. |
-| `peptide_lengths` | no | List of MHC-I peptide lengths; defaults to `[8, 9, 10, 11]`. |
-
-Invalid input raises clear messages that name the failing field, such as an invalid mutation format, unsupported HLA allele, or non-list `peptide_lengths` value.
-
 ### Example output
 
 A successful run writes traceable artifacts to the selected output directory:

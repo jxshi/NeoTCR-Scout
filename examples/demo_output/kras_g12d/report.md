@@ -4,7 +4,7 @@
 NeoTCR-Scout is an evidence-guided workflow for neoantigen-specific TCR discovery and prioritization.
 It is not a de novo TCR generator or therapeutic TCR design platform.
 
-## 2. Input mutation and HLA
+## 2. Input mutation & HLA
 - Gene: `KRAS`
 - Mutation: `G12D`
 - HLA: `HLA-A*11:01`
@@ -51,7 +51,7 @@ It is not a de novo TCR generator or therapeutic TCR design platform.
 | ADGVGKSALTI | AGGVGKSALTI | 11 | 1 | VVGADGVGKSALTIQLI |
 | DGVGKSALTIQ | GGVGKSALTIQ | 11 | 0 | VGADGVGKSALTIQLIQ |
 
-## 4. MHC binding prediction summary
+## 4. MHC binding summary
 | peptide | hla | rank_percent | binder | method |
 | --- | --- | --- | --- | --- |
 | KLVVVGAD | HLA-A*11:01 | 4.0 | non-binder | rule-based-fallback-v0.1 |
@@ -97,664 +97,714 @@ It is not a de novo TCR generator or therapeutic TCR design platform.
 | identifier | source | epitope | hla | tra_cdr3 | trb_cdr3 |
 | --- | --- | --- | --- | --- | --- |
 | VDJDB-KRAS-G12D-001 | VDJdb | VVGADGVGK | HLA-A*11:01 | CAVNNNDMRF | CASSIRSSYEQYF |
+| NEOTCR-KRAS-G12D-001 | NeoTCR | VVVGADGVGK | HLA-A*11:01 | CAVRNNARLMF | CASSLAPGATNEKLFF |
 
 ## 6. Similar peptide / related mutation hits
-| query_peptide | matched_epitope | distance | similarity_score | same_hla | source |
-| --- | --- | --- | --- | --- | --- |
-| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | IEDB |
-| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | IEDB |
-| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | IEDB |
-| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | IEDB |
-| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | IEDB |
-| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | IEDB |
-| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | IEDB |
-| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | IEDB |
-| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | IEDB |
-| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | VDJdb |
-| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | VDJdb |
-| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | VDJdb |
-| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | VDJdb |
-| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | VDJdb |
-| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | yes | IEDB |
-| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| VVVGADGVGK | VVVGAVGVGK | 1 | 0.9 | yes | VDJdb |
-| VVVGADGVGK | VVVGACGVGK | 1 | 0.9 | yes | TCR3D |
-| VVVGADGVGK | VVVGACGVGK | 1 | 0.9 | yes | TCR3D |
-| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | yes | VDJdb |
-| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | yes | IEDB |
-| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VGADGVGK | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VGADGVGK | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VGADGVGK | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VGADGVGK | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VGADGVGK | VVGADGVGK | 1 | 0.889 | yes | VDJdb |
-| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| VVVGADGVGKS | VVVGAVGVGK | 2 | 0.818 | yes | VDJdb |
-| VVVGADGVGKS | VVVGACGVGK | 2 | 0.818 | yes | TCR3D |
-| VVVGADGVGKS | VVVGACGVGK | 2 | 0.818 | yes | TCR3D |
-| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| LVVVGADGVGK | VVVGAVGVGK | 2 | 0.818 | yes | VDJdb |
-| LVVVGADGVGK | VVVGACGVGK | 2 | 0.818 | yes | TCR3D |
-| LVVVGADGVGK | VVVGACGVGK | 2 | 0.818 | yes | TCR3D |
-| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | yes | VDJdb |
-| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VVVGADGVG | VVVGAVGVGK | 2 | 0.8 | yes | VDJdb |
-| VVVGADGVG | VVVGACGVGK | 2 | 0.8 | yes | TCR3D |
-| VVVGADGVG | VVVGACGVGK | 2 | 0.8 | yes | TCR3D |
-| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VVGADGVGK | VVVGAVGVGK | 2 | 0.8 | yes | VDJdb |
-| VVGADGVGK | VVVGACGVGK | 2 | 0.8 | yes | TCR3D |
-| VVGADGVGK | VVVGACGVGK | 2 | 0.8 | yes | TCR3D |
-| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | yes | IEDB |
-| VVVGADGVG | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VVVGADGVG | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VVVGADGVG | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VVVGADGVG | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VVVGADGVG | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VGADGVGKS | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VGADGVGKS | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VGADGVGKS | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VGADGVGKS | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VGADGVGKS | VVGADGVGK | 2 | 0.778 | yes | VDJdb |
-| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | yes | IEDB |
-| VVVGADGV | VVVGAVGVGK | 3 | 0.7 | yes | VDJdb |
-| VVVGADGV | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| VVVGADGV | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| VGADGVGK | VVVGAVGVGK | 3 | 0.7 | yes | VDJdb |
-| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| LVVVGADGVG | VVVGAVGVGK | 3 | 0.7 | yes | VDJdb |
-| LVVVGADGVG | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| LVVVGADGVG | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| VGADGVGK | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| VGADGVGK | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| VVGADGVGKS | VVVGAVGVGK | 3 | 0.7 | yes | VDJdb |
-| VVGADGVGKS | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| VVGADGVGKS | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| VVGADGVG | VVVGAVGVGK | 3 | 0.7 | yes | VDJdb |
-| VVGADGVG | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| VVGADGVG | VVVGACGVGK | 3 | 0.7 | yes | TCR3D |
-| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | yes | VDJdb |
-| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | yes | IEDB |
-| GADGVGKS | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| GADGVGKS | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| GADGVGKS | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| GADGVGKS | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| GADGVGKS | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| VVVGADGV | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| VVVGADGV | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| VVVGADGV | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| VVVGADGV | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| VVVGADGV | VVGADGVGK | 3 | 0.667 | yes | VDJdb |
-| KLVVVGADGVG | VVVGAVGVGK | 4 | 0.636 | yes | VDJdb |
-| KLVVVGADGVG | VVVGACGVGK | 4 | 0.636 | yes | TCR3D |
-| KLVVVGADGVG | VVVGACGVGK | 4 | 0.636 | yes | TCR3D |
-| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| VVGADGVGKSA | VVVGAVGVGK | 4 | 0.636 | yes | VDJdb |
-| VVGADGVGKSA | VVVGACGVGK | 4 | 0.636 | yes | TCR3D |
-| VVGADGVGKSA | VVVGACGVGK | 4 | 0.636 | yes | TCR3D |
-| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | yes | VDJdb |
-| VGADGVGKS | VVVGAVGVGK | 4 | 0.6 | yes | VDJdb |
-| VGADGVGKS | VVVGACGVGK | 4 | 0.6 | yes | TCR3D |
-| VGADGVGKS | VVVGACGVGK | 4 | 0.6 | yes | TCR3D |
-| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| LVVVGADGV | VVVGAVGVGK | 4 | 0.6 | yes | VDJdb |
-| LVVVGADGV | VVVGACGVGK | 4 | 0.6 | yes | TCR3D |
-| LVVVGADGV | VVVGACGVGK | 4 | 0.6 | yes | TCR3D |
-| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VGADGVGK | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VGADGVGK | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VGADGVGK | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VGADGVGK | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VGADGVGK | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VGADGVGK | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VGADGVGK | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VGADGVGK | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| VGADGVGK | GADGVGKSAL | 4 | 0.6 | yes | IEDB |
-| LVVVGADGV | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| LVVVGADGV | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| LVVVGADGV | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| LVVVGADGV | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| LVVVGADGV | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| GADGVGKSA | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| GADGVGKSA | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| GADGVGKSA | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| GADGVGKSA | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| GADGVGKSA | VVGADGVGK | 4 | 0.556 | yes | VDJdb |
-| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | yes | IEDB |
-| VGADGVGKSA | VVVGAVGVGK | 5 | 0.5 | yes | VDJdb |
-| VGADGVGKSA | VVVGACGVGK | 5 | 0.5 | yes | TCR3D |
-| VGADGVGKSA | VVVGACGVGK | 5 | 0.5 | yes | TCR3D |
-| KLVVVGADGV | VVVGAVGVGK | 5 | 0.5 | yes | VDJdb |
-| KLVVVGADGV | VVVGACGVGK | 5 | 0.5 | yes | TCR3D |
-| KLVVVGADGV | VVVGACGVGK | 5 | 0.5 | yes | TCR3D |
-| LVVVGADG | VVVGAVGVGK | 5 | 0.5 | yes | VDJdb |
-| LVVVGADG | VVVGACGVGK | 5 | 0.5 | yes | TCR3D |
-| LVVVGADG | VVVGACGVGK | 5 | 0.5 | yes | TCR3D |
-| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | yes | IEDB |
-| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | yes | IEDB |
-| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | yes | IEDB |
-| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | yes | IEDB |
-| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | yes | IEDB |
-| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | yes | IEDB |
-| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | yes | IEDB |
-| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | yes | IEDB |
-| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | yes | IEDB |
-| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | yes | VDJdb |
-| GADGVGKS | VVVGAVGVGK | 5 | 0.5 | yes | VDJdb |
-| GADGVGKS | VVVGACGVGK | 5 | 0.5 | yes | TCR3D |
-| GADGVGKS | VVVGACGVGK | 5 | 0.5 | yes | TCR3D |
-| VGADGVGKSAL | VVVGAVGVGK | 6 | 0.455 | yes | VDJdb |
-| YKLVVVGADGV | VVVGAVGVGK | 6 | 0.455 | yes | VDJdb |
-| VGADGVGKSAL | VVVGACGVGK | 6 | 0.455 | yes | TCR3D |
-| VGADGVGKSAL | VVVGACGVGK | 6 | 0.455 | yes | TCR3D |
-| YKLVVVGADGV | VVVGACGVGK | 6 | 0.455 | yes | TCR3D |
-| YKLVVVGADGV | VVVGACGVGK | 6 | 0.455 | yes | TCR3D |
-| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | yes | VDJdb |
-| LVVVGADG | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| LVVVGADG | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| LVVVGADG | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| LVVVGADG | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| LVVVGADG | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| ADGVGKSA | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| ADGVGKSA | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| ADGVGKSA | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| ADGVGKSA | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| ADGVGKSA | VVGADGVGK | 5 | 0.444 | yes | VDJdb |
-| KLVVVGADG | VVVGAVGVGK | 6 | 0.4 | yes | VDJdb |
-| KLVVVGADG | VVVGACGVGK | 6 | 0.4 | yes | TCR3D |
-| KLVVVGADG | VVVGACGVGK | 6 | 0.4 | yes | TCR3D |
-| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVGADGVG | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVGADGVG | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVGADGVG | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVGADGVG | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVGADGVG | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVGADGVG | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVGADGVG | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVGADGVG | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| VVGADGVG | GADGVGKSAL | 6 | 0.4 | yes | IEDB |
-| GADGVGKSA | VVVGAVGVGK | 6 | 0.4 | yes | VDJdb |
-| GADGVGKSA | VVVGACGVGK | 6 | 0.4 | yes | TCR3D |
-| GADGVGKSA | VVVGACGVGK | 6 | 0.4 | yes | TCR3D |
-| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | yes | IEDB |
-| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | yes | IEDB |
-| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | yes | IEDB |
-| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | yes | IEDB |
-| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | yes | IEDB |
-| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | yes | IEDB |
-| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | yes | IEDB |
-| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | yes | IEDB |
-| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | yes | IEDB |
-| KLVVVGADG | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| KLVVVGADG | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| KLVVVGADG | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| KLVVVGADG | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| KLVVVGADG | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | yes | VDJdb |
-| YKLVVVGADG | VVVGAVGVGK | 7 | 0.3 | yes | VDJdb |
-| YKLVVVGADG | VVVGACGVGK | 7 | 0.3 | yes | TCR3D |
-| YKLVVVGADG | VVVGACGVGK | 7 | 0.3 | yes | TCR3D |
-| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | yes | IEDB |
-| GADGVGKSAL | VVVGAVGVGK | 7 | 0.3 | yes | VDJdb |
-| GADGVGKSAL | VVVGACGVGK | 7 | 0.3 | yes | TCR3D |
-| GADGVGKSAL | VVVGACGVGK | 7 | 0.3 | yes | TCR3D |
-| KLVVVGAD | VVVGAVGVGK | 7 | 0.3 | yes | VDJdb |
-| KLVVVGAD | VVVGACGVGK | 7 | 0.3 | yes | TCR3D |
-| KLVVVGAD | VVVGACGVGK | 7 | 0.3 | yes | TCR3D |
-| ADGVGKSA | VVVGAVGVGK | 7 | 0.3 | yes | VDJdb |
-| ADGVGKSA | VVVGACGVGK | 7 | 0.3 | yes | TCR3D |
-| ADGVGKSA | VVVGACGVGK | 7 | 0.3 | yes | TCR3D |
-| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | yes | VDJdb |
-| TEYKLVVVGAD | VVVGAVGVGK | 8 | 0.273 | yes | VDJdb |
-| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | yes | VDJdb |
-| GADGVGKSALT | VVVGAVGVGK | 8 | 0.273 | yes | VDJdb |
-| GADGVGKSALT | VVVGACGVGK | 8 | 0.273 | yes | TCR3D |
-| GADGVGKSALT | VVVGACGVGK | 8 | 0.273 | yes | TCR3D |
-| EYKLVVVGADG | VVVGAVGVGK | 8 | 0.273 | yes | VDJdb |
-| EYKLVVVGADG | VVVGACGVGK | 8 | 0.273 | yes | TCR3D |
-| EYKLVVVGADG | VVVGACGVGK | 8 | 0.273 | yes | TCR3D |
-| KLVVVGAD | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| KLVVVGAD | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| KLVVVGAD | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| KLVVVGAD | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| KLVVVGAD | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| DGVGKSAL | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| DGVGKSAL | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| DGVGKSAL | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| DGVGKSAL | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| DGVGKSAL | VVGADGVGK | 7 | 0.222 | yes | VDJdb |
-| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | VVVGAVGVGK | 8 | 0.2 | yes | VDJdb |
-| DGVGKSALTI | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| DGVGKSALTI | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| DGVGKSALT | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| DGVGKSALT | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| DGVGKSALTI | VVVGAVGVGK | 8 | 0.2 | yes | VDJdb |
-| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| DGVGKSALT | VVVGAVGVGK | 8 | 0.2 | yes | VDJdb |
-| DGVGKSAL | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| DGVGKSAL | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| YKLVVVGAD | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| YKLVVVGAD | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| DGVGKSAL | VVVGAVGVGK | 8 | 0.2 | yes | VDJdb |
-| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| EYKLVVVGAD | VVVGAVGVGK | 8 | 0.2 | yes | VDJdb |
-| VVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| VVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| VVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| VVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| VVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| VVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| VVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| VVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| VVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| ADGVGKSAL | VVVGAVGVGK | 8 | 0.2 | yes | VDJdb |
-| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | yes | VDJdb |
-| ADGVGKSAL | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| ADGVGKSAL | VVVGACGVGK | 8 | 0.2 | yes | TCR3D |
-| LVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| LVVVGADG | GADGVGKSAL | 8 | 0.2 | yes | IEDB |
-| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | VVVGACGVGK | 9 | 0.182 | yes | TCR3D |
-| TEYKLVVVGAD | VVVGACGVGK | 9 | 0.182 | yes | TCR3D |
-| DGVGKSALTIQ | VVVGACGVGK | 9 | 0.182 | yes | TCR3D |
-| DGVGKSALTIQ | VVVGACGVGK | 9 | 0.182 | yes | TCR3D |
-| DGVGKSALTIQ | VVVGAVGVGK | 9 | 0.182 | yes | VDJdb |
-| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| ADGVGKSALTI | VVVGAVGVGK | 9 | 0.182 | yes | VDJdb |
-| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | yes | IEDB |
-| ADGVGKSALTI | VVVGACGVGK | 9 | 0.182 | yes | TCR3D |
-| ADGVGKSALTI | VVVGACGVGK | 9 | 0.182 | yes | TCR3D |
-| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | yes | VDJdb |
-| DGVGKSALT | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| DGVGKSALT | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| DGVGKSALT | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| DGVGKSALT | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| DGVGKSALT | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | yes | VDJdb |
-| ADGVGKSALT | VVVGAVGVGK | 9 | 0.1 | yes | VDJdb |
-| EYKLVVVGAD | VVVGACGVGK | 9 | 0.1 | yes | TCR3D |
-| EYKLVVVGAD | VVVGACGVGK | 9 | 0.1 | yes | TCR3D |
-| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | yes | IEDB |
-| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | yes | IEDB |
-| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | yes | IEDB |
-| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | yes | IEDB |
-| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | yes | IEDB |
-| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | yes | IEDB |
-| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | yes | IEDB |
-| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | yes | IEDB |
-| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | yes | IEDB |
-| ADGVGKSALT | VVVGACGVGK | 9 | 0.1 | yes | TCR3D |
-| ADGVGKSALT | VVVGACGVGK | 9 | 0.1 | yes | TCR3D |
+### Similar peptide evidence
+| query_peptide | matched_epitope | distance | similarity_score | mutation_site_match | same_hla | source |
+| --- | --- | --- | --- | --- | --- | --- |
+| VVVGADGVGK | VVVGADGVGK | 0 | 1.0 | yes | yes | NeoTCR |
+| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | yes | IEDB |
+| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | yes | IEDB |
+| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | yes | IEDB |
+| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | yes | IEDB |
+| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | yes | IEDB |
+| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | yes | IEDB |
+| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | yes | IEDB |
+| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | yes | IEDB |
+| GADGVGKSAL | GADGVGKSAL | 0 | 1.0 | yes | yes | IEDB |
+| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | yes | VDJdb |
+| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | yes | VDJdb |
+| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | yes | VDJdb |
+| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | yes | VDJdb |
+| VVGADGVGK | VVGADGVGK | 0 | 1.0 | yes | yes | VDJdb |
+| VVVGADGVGKS | VVVGADGVGK | 1 | 0.909 | yes | yes | NeoTCR |
+| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | yes | IEDB |
+| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | yes | IEDB |
+| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | yes | IEDB |
+| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | yes | IEDB |
+| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | yes | IEDB |
+| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | yes | IEDB |
+| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | yes | IEDB |
+| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | yes | IEDB |
+| GADGVGKSALT | GADGVGKSAL | 1 | 0.909 | yes | yes | IEDB |
+| LVVVGADGVGK | VVVGADGVGK | 1 | 0.909 | no | yes | NeoTCR |
+| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | no | yes | IEDB |
+| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | no | yes | IEDB |
+| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | no | yes | IEDB |
+| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | no | yes | IEDB |
+| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | no | yes | IEDB |
+| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | no | yes | IEDB |
+| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | no | yes | IEDB |
+| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | no | yes | IEDB |
+| VGADGVGKSAL | GADGVGKSAL | 1 | 0.909 | no | yes | IEDB |
+| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | yes | IEDB |
+| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | yes | IEDB |
+| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | yes | IEDB |
+| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | yes | IEDB |
+| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | yes | IEDB |
+| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | yes | IEDB |
+| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | yes | IEDB |
+| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | yes | IEDB |
+| GADGVGKSA | GADGVGKSAL | 1 | 0.9 | yes | yes | IEDB |
+| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | yes | VDJdb |
+| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | yes | VDJdb |
+| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | yes | VDJdb |
+| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | yes | VDJdb |
+| VVGADGVGKS | VVGADGVGK | 1 | 0.9 | yes | yes | VDJdb |
+| VVVGADGVG | VVVGADGVGK | 1 | 0.9 | yes | yes | NeoTCR |
+| VVVGADGVGK | VVVGAVGVGK | 1 | 0.9 | no | yes | VDJdb |
+| VVVGADGVGK | VVVGACGVGK | 1 | 0.9 | no | yes | TCR3D |
+| VVVGADGVGK | VVVGACGVGK | 1 | 0.9 | no | yes | TCR3D |
+| VVGADGVGK | VVVGADGVGK | 1 | 0.9 | no | yes | NeoTCR |
+| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | no | yes | VDJdb |
+| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | no | yes | VDJdb |
+| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | no | yes | VDJdb |
+| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | no | yes | VDJdb |
+| VVVGADGVGK | VVGADGVGK | 1 | 0.9 | no | yes | VDJdb |
+| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | no | yes | IEDB |
+| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | no | yes | IEDB |
+| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | no | yes | IEDB |
+| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | no | yes | IEDB |
+| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | no | yes | IEDB |
+| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | no | yes | IEDB |
+| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | no | yes | IEDB |
+| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | no | yes | IEDB |
+| ADGVGKSAL | GADGVGKSAL | 1 | 0.9 | no | yes | IEDB |
+| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | yes | VDJdb |
+| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | yes | VDJdb |
+| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | yes | VDJdb |
+| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | yes | VDJdb |
+| VVGADGVG | VVGADGVGK | 1 | 0.889 | yes | yes | VDJdb |
+| VGADGVGK | VVGADGVGK | 1 | 0.889 | no | yes | VDJdb |
+| VGADGVGK | VVGADGVGK | 1 | 0.889 | no | yes | VDJdb |
+| VGADGVGK | VVGADGVGK | 1 | 0.889 | no | yes | VDJdb |
+| VGADGVGK | VVGADGVGK | 1 | 0.889 | no | yes | VDJdb |
+| VGADGVGK | VVGADGVGK | 1 | 0.889 | no | yes | VDJdb |
+| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | yes | VDJdb |
+| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | yes | VDJdb |
+| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | yes | VDJdb |
+| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | yes | VDJdb |
+| VVGADGVGKSA | VVGADGVGK | 2 | 0.818 | yes | yes | VDJdb |
+| VVVGADGVGKS | VVVGAVGVGK | 2 | 0.818 | no | yes | VDJdb |
+| VVVGADGVGKS | VVVGACGVGK | 2 | 0.818 | no | yes | TCR3D |
+| VVVGADGVGKS | VVVGACGVGK | 2 | 0.818 | no | yes | TCR3D |
+| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| LVVVGADGVGK | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| LVVVGADGVGK | VVVGAVGVGK | 2 | 0.818 | no | yes | VDJdb |
+| LVVVGADGVGK | VVVGACGVGK | 2 | 0.818 | no | yes | TCR3D |
+| LVVVGADGVGK | VVVGACGVGK | 2 | 0.818 | no | yes | TCR3D |
+| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| VVVGADGVGKS | VVGADGVGK | 2 | 0.818 | no | yes | VDJdb |
+| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | yes | IEDB |
+| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | yes | IEDB |
+| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | yes | IEDB |
+| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | yes | IEDB |
+| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | yes | IEDB |
+| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | yes | IEDB |
+| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | yes | IEDB |
+| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | yes | IEDB |
+| GADGVGKS | GADGVGKSAL | 2 | 0.8 | yes | yes | IEDB |
+| VVVGADGVG | VVVGAVGVGK | 2 | 0.8 | no | yes | VDJdb |
+| VVVGADGVG | VVVGACGVGK | 2 | 0.8 | no | yes | TCR3D |
+| VVVGADGVG | VVVGACGVGK | 2 | 0.8 | no | yes | TCR3D |
+| VVVGADGV | VVVGADGVGK | 2 | 0.8 | yes | yes | NeoTCR |
+| LVVVGADGVG | VVVGADGVGK | 2 | 0.8 | no | yes | NeoTCR |
+| VVGADGVGKS | VVVGADGVGK | 2 | 0.8 | no | yes | NeoTCR |
+| VGADGVGK | VVVGADGVGK | 2 | 0.8 | no | yes | NeoTCR |
+| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| DGVGKSAL | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VVGADGVG | VVVGADGVGK | 2 | 0.8 | no | yes | NeoTCR |
+| VVGADGVGK | VVVGAVGVGK | 2 | 0.8 | no | yes | VDJdb |
+| VVGADGVGK | VVVGACGVGK | 2 | 0.8 | no | yes | TCR3D |
+| VVGADGVGK | VVVGACGVGK | 2 | 0.8 | no | yes | TCR3D |
+| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSALT | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VGADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| ADGVGKSA | GADGVGKSAL | 2 | 0.8 | no | yes | IEDB |
+| VVVGADGVG | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| VVVGADGVG | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| VVVGADGVG | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| VVVGADGVG | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| VVVGADGVG | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| VGADGVGKS | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| VGADGVGKS | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| VGADGVGKS | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| VGADGVGKS | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| VGADGVGKS | VVGADGVGK | 2 | 0.778 | no | yes | VDJdb |
+| KLVVVGADGVG | VVVGADGVGK | 3 | 0.727 | no | yes | NeoTCR |
+| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| VVGADGVGKSA | VVVGADGVGK | 3 | 0.727 | no | yes | NeoTCR |
+| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| VVGADGVGKSA | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| ADGVGKSALTI | GADGVGKSAL | 3 | 0.727 | no | yes | IEDB |
+| VVVGADGV | VVVGAVGVGK | 3 | 0.7 | no | yes | VDJdb |
+| VVVGADGV | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| VVVGADGV | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| VGADGVGK | VVVGAVGVGK | 3 | 0.7 | no | yes | VDJdb |
+| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| LVVVGADGVG | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| VGADGVGKS | VVVGADGVGK | 3 | 0.7 | no | yes | NeoTCR |
+| LVVVGADGVG | VVVGAVGVGK | 3 | 0.7 | no | yes | VDJdb |
+| LVVVGADGVG | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| LVVVGADGVG | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| VGADGVGK | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| VGADGVGK | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| LVVVGADGV | VVVGADGVGK | 3 | 0.7 | no | yes | NeoTCR |
+| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| DGVGKSALT | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| VVGADGVGKS | VVVGAVGVGK | 3 | 0.7 | no | yes | VDJdb |
+| VVGADGVGKS | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| VVGADGVGKS | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| VVGADGVG | VVVGAVGVGK | 3 | 0.7 | no | yes | VDJdb |
+| VVGADGVG | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| VVGADGVG | VVVGACGVGK | 3 | 0.7 | no | yes | TCR3D |
+| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| VGADGVGKSA | VVGADGVGK | 3 | 0.7 | no | yes | VDJdb |
+| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| VGADGVGKS | GADGVGKSAL | 3 | 0.7 | no | yes | IEDB |
+| GADGVGKS | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| GADGVGKS | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| GADGVGKS | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| GADGVGKS | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| GADGVGKS | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| VVVGADGV | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| VVVGADGV | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| VVVGADGV | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| VVVGADGV | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| VVVGADGV | VVGADGVGK | 3 | 0.667 | no | yes | VDJdb |
+| KLVVVGADGVG | VVVGAVGVGK | 4 | 0.636 | no | yes | VDJdb |
+| KLVVVGADGVG | VVVGACGVGK | 4 | 0.636 | no | yes | TCR3D |
+| KLVVVGADGVG | VVVGACGVGK | 4 | 0.636 | no | yes | TCR3D |
+| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| KLVVVGADGVG | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| VVGADGVGKSA | VVVGAVGVGK | 4 | 0.636 | no | yes | VDJdb |
+| VVGADGVGKSA | VVVGACGVGK | 4 | 0.636 | no | yes | TCR3D |
+| VVGADGVGKSA | VVVGACGVGK | 4 | 0.636 | no | yes | TCR3D |
+| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| VGADGVGKSAL | VVGADGVGK | 4 | 0.636 | no | yes | VDJdb |
+| VGADGVGKS | VVVGAVGVGK | 4 | 0.6 | no | yes | VDJdb |
+| KLVVVGADGV | VVVGADGVGK | 4 | 0.6 | no | yes | NeoTCR |
+| VGADGVGKSA | VVVGADGVGK | 4 | 0.6 | no | yes | NeoTCR |
+| VGADGVGKS | VVVGACGVGK | 4 | 0.6 | no | yes | TCR3D |
+| VGADGVGKS | VVVGACGVGK | 4 | 0.6 | no | yes | TCR3D |
+| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| DGVGKSALTI | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| LVVVGADGV | VVVGAVGVGK | 4 | 0.6 | no | yes | VDJdb |
+| LVVVGADGV | VVVGACGVGK | 4 | 0.6 | no | yes | TCR3D |
+| LVVVGADGV | VVVGACGVGK | 4 | 0.6 | no | yes | TCR3D |
+| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VVGADGVGKS | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| LVVVGADG | VVVGADGVGK | 4 | 0.6 | no | yes | NeoTCR |
+| GADGVGKS | VVVGADGVGK | 4 | 0.6 | no | yes | NeoTCR |
+| VGADGVGK | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VGADGVGK | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VGADGVGK | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VGADGVGK | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VGADGVGK | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VGADGVGK | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VGADGVGK | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VGADGVGK | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| VGADGVGK | GADGVGKSAL | 4 | 0.6 | no | yes | IEDB |
+| LVVVGADGV | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| LVVVGADGV | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| LVVVGADGV | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| LVVVGADGV | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| LVVVGADGV | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| GADGVGKSA | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| GADGVGKSA | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| GADGVGKSA | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| GADGVGKSA | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| GADGVGKSA | VVGADGVGK | 4 | 0.556 | no | yes | VDJdb |
+| VGADGVGKSAL | VVVGADGVGK | 5 | 0.545 | no | yes | NeoTCR |
+| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| DGVGKSALTIQ | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| YKLVVVGADGV | VVVGADGVGK | 5 | 0.545 | no | yes | NeoTCR |
+| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| VVVGADGVGKS | GADGVGKSAL | 5 | 0.545 | no | yes | IEDB |
+| VGADGVGKSA | VVVGAVGVGK | 5 | 0.5 | no | yes | VDJdb |
+| VGADGVGKSA | VVVGACGVGK | 5 | 0.5 | no | yes | TCR3D |
+| VGADGVGKSA | VVVGACGVGK | 5 | 0.5 | no | yes | TCR3D |
+| KLVVVGADG | VVVGADGVGK | 5 | 0.5 | no | yes | NeoTCR |
+| KLVVVGADGV | VVVGAVGVGK | 5 | 0.5 | no | yes | VDJdb |
+| KLVVVGADGV | VVVGACGVGK | 5 | 0.5 | no | yes | TCR3D |
+| KLVVVGADGV | VVVGACGVGK | 5 | 0.5 | no | yes | TCR3D |
+| LVVVGADG | VVVGAVGVGK | 5 | 0.5 | no | yes | VDJdb |
+| LVVVGADG | VVVGACGVGK | 5 | 0.5 | no | yes | TCR3D |
+| LVVVGADG | VVVGACGVGK | 5 | 0.5 | no | yes | TCR3D |
+| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | no | yes | IEDB |
+| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | no | yes | IEDB |
+| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | no | yes | IEDB |
+| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | no | yes | IEDB |
+| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | no | yes | IEDB |
+| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | no | yes | IEDB |
+| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | no | yes | IEDB |
+| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | no | yes | IEDB |
+| VVGADGVGK | GADGVGKSAL | 5 | 0.5 | no | yes | IEDB |
+| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| KLVVVGADGV | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| GADGVGKSAL | VVGADGVGK | 5 | 0.5 | no | yes | VDJdb |
+| GADGVGKSA | VVVGADGVGK | 5 | 0.5 | no | yes | NeoTCR |
+| GADGVGKS | VVVGAVGVGK | 5 | 0.5 | no | yes | VDJdb |
+| GADGVGKS | VVVGACGVGK | 5 | 0.5 | no | yes | TCR3D |
+| GADGVGKS | VVVGACGVGK | 5 | 0.5 | no | yes | TCR3D |
+| VGADGVGKSAL | VVVGAVGVGK | 6 | 0.455 | no | yes | VDJdb |
+| YKLVVVGADGV | VVVGAVGVGK | 6 | 0.455 | no | yes | VDJdb |
+| VGADGVGKSAL | VVVGACGVGK | 6 | 0.455 | no | yes | TCR3D |
+| VGADGVGKSAL | VVVGACGVGK | 6 | 0.455 | no | yes | TCR3D |
+| YKLVVVGADGV | VVVGACGVGK | 6 | 0.455 | no | yes | TCR3D |
+| YKLVVVGADGV | VVVGACGVGK | 6 | 0.455 | no | yes | TCR3D |
+| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| GADGVGKSALT | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| YKLVVVGADGV | VVGADGVGK | 6 | 0.455 | no | yes | VDJdb |
+| LVVVGADG | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| LVVVGADG | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| LVVVGADG | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| LVVVGADG | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| LVVVGADG | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| ADGVGKSA | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| ADGVGKSA | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| ADGVGKSA | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| ADGVGKSA | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| ADGVGKSA | VVGADGVGK | 5 | 0.444 | no | yes | VDJdb |
+| KLVVVGADG | VVVGAVGVGK | 6 | 0.4 | no | yes | VDJdb |
+| KLVVVGADG | VVVGACGVGK | 6 | 0.4 | no | yes | TCR3D |
+| KLVVVGADG | VVVGACGVGK | 6 | 0.4 | no | yes | TCR3D |
+| YKLVVVGADG | VVVGADGVGK | 6 | 0.4 | no | yes | NeoTCR |
+| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVVGADGVGK | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| GADGVGKSAL | VVVGADGVGK | 6 | 0.4 | no | yes | NeoTCR |
+| VVGADGVG | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVGADGVG | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVGADGVG | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVGADGVG | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVGADGVG | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVGADGVG | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVGADGVG | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVGADGVG | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| VVGADGVG | GADGVGKSAL | 6 | 0.4 | no | yes | IEDB |
+| GADGVGKSA | VVVGAVGVGK | 6 | 0.4 | no | yes | VDJdb |
+| GADGVGKSA | VVVGACGVGK | 6 | 0.4 | no | yes | TCR3D |
+| GADGVGKSA | VVVGACGVGK | 6 | 0.4 | no | yes | TCR3D |
+| KLVVVGAD | VVVGADGVGK | 6 | 0.4 | no | yes | NeoTCR |
+| ADGVGKSA | VVVGADGVGK | 6 | 0.4 | no | yes | NeoTCR |
+| GADGVGKSALT | VVVGADGVGK | 7 | 0.364 | no | yes | NeoTCR |
+| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | no | yes | IEDB |
+| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | no | yes | IEDB |
+| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | no | yes | IEDB |
+| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | no | yes | IEDB |
+| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | no | yes | IEDB |
+| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | no | yes | IEDB |
+| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | no | yes | IEDB |
+| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | no | yes | IEDB |
+| LVVVGADGVGK | GADGVGKSAL | 7 | 0.364 | no | yes | IEDB |
+| EYKLVVVGADG | VVVGADGVGK | 7 | 0.364 | no | yes | NeoTCR |
+| KLVVVGADG | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| KLVVVGADG | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| KLVVVGADG | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| KLVVVGADG | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| KLVVVGADG | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| ADGVGKSAL | VVGADGVGK | 6 | 0.333 | no | yes | VDJdb |
+| YKLVVVGADG | VVVGAVGVGK | 7 | 0.3 | no | yes | VDJdb |
+| YKLVVVGADG | VVVGACGVGK | 7 | 0.3 | no | yes | TCR3D |
+| YKLVVVGADG | VVVGACGVGK | 7 | 0.3 | no | yes | TCR3D |
+| YKLVVVGAD | VVVGADGVGK | 7 | 0.3 | no | yes | NeoTCR |
+| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| KLVVVGAD | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| ADGVGKSALT | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| VVVGADGVG | GADGVGKSAL | 7 | 0.3 | no | yes | IEDB |
+| GADGVGKSAL | VVVGAVGVGK | 7 | 0.3 | no | yes | VDJdb |
+| GADGVGKSAL | VVVGACGVGK | 7 | 0.3 | no | yes | TCR3D |
+| GADGVGKSAL | VVVGACGVGK | 7 | 0.3 | no | yes | TCR3D |
+| KLVVVGAD | VVVGAVGVGK | 7 | 0.3 | no | yes | VDJdb |
+| KLVVVGAD | VVVGACGVGK | 7 | 0.3 | no | yes | TCR3D |
+| KLVVVGAD | VVVGACGVGK | 7 | 0.3 | no | yes | TCR3D |
+| ADGVGKSAL | VVVGADGVGK | 7 | 0.3 | no | yes | NeoTCR |
+| ADGVGKSA | VVVGAVGVGK | 7 | 0.3 | no | yes | VDJdb |
+| ADGVGKSA | VVVGACGVGK | 7 | 0.3 | no | yes | TCR3D |
+| ADGVGKSA | VVVGACGVGK | 7 | 0.3 | no | yes | TCR3D |
+| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| YKLVVVGADG | VVGADGVGK | 7 | 0.3 | no | yes | VDJdb |
+| TEYKLVVVGAD | VVVGAVGVGK | 8 | 0.273 | unknown | yes | VDJdb |
+| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | unknown | yes | VDJdb |
+| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | unknown | yes | VDJdb |
+| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | unknown | yes | VDJdb |
+| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | unknown | yes | VDJdb |
+| EYKLVVVGADG | VVGADGVGK | 8 | 0.273 | unknown | yes | VDJdb |
+| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | no | yes | VDJdb |
+| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | no | yes | VDJdb |
+| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | no | yes | VDJdb |
+| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | no | yes | VDJdb |
+| ADGVGKSALTI | VVGADGVGK | 8 | 0.273 | no | yes | VDJdb |
+| GADGVGKSALT | VVVGAVGVGK | 8 | 0.273 | no | yes | VDJdb |
+| GADGVGKSALT | VVVGACGVGK | 8 | 0.273 | no | yes | TCR3D |
+| GADGVGKSALT | VVVGACGVGK | 8 | 0.273 | no | yes | TCR3D |
+| EYKLVVVGADG | VVVGAVGVGK | 8 | 0.273 | no | yes | VDJdb |
+| EYKLVVVGADG | VVVGACGVGK | 8 | 0.273 | no | yes | TCR3D |
+| EYKLVVVGADG | VVVGACGVGK | 8 | 0.273 | no | yes | TCR3D |
+| KLVVVGAD | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| KLVVVGAD | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| KLVVVGAD | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| KLVVVGAD | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| KLVVVGAD | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| DGVGKSAL | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| DGVGKSAL | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| DGVGKSAL | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| DGVGKSAL | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| DGVGKSAL | VVGADGVGK | 7 | 0.222 | no | yes | VDJdb |
+| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| YKLVVVGAD | VVVGAVGVGK | 8 | 0.2 | no | yes | VDJdb |
+| DGVGKSALTI | VVVGADGVGK | 8 | 0.2 | no | yes | NeoTCR |
+| DGVGKSALT | VVVGADGVGK | 8 | 0.2 | no | yes | NeoTCR |
+| DGVGKSALTI | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| DGVGKSALTI | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| DGVGKSALT | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| DGVGKSALT | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| DGVGKSALTI | VVVGAVGVGK | 8 | 0.2 | no | yes | VDJdb |
+| DGVGKSAL | VVVGADGVGK | 8 | 0.2 | no | yes | NeoTCR |
+| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| DGVGKSALT | VVVGAVGVGK | 8 | 0.2 | no | yes | VDJdb |
+| DGVGKSAL | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| DGVGKSAL | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| YKLVVVGAD | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| YKLVVVGAD | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| DGVGKSAL | VVVGAVGVGK | 8 | 0.2 | no | yes | VDJdb |
+| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | unknown | yes | VDJdb |
+| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | unknown | yes | VDJdb |
+| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | unknown | yes | VDJdb |
+| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | unknown | yes | VDJdb |
+| EYKLVVVGAD | VVGADGVGK | 8 | 0.2 | unknown | yes | VDJdb |
+| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| EYKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| EYKLVVVGAD | VVVGAVGVGK | 8 | 0.2 | no | yes | VDJdb |
+| VVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| VVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| VVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| VVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| VVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| VVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| VVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| VVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| VVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| ADGVGKSALT | VVVGADGVGK | 8 | 0.2 | no | yes | NeoTCR |
+| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| YKLVVVGAD | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGV | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADGVG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| ADGVGKSAL | VVVGAVGVGK | 8 | 0.2 | no | yes | VDJdb |
+| EYKLVVVGAD | VVVGADGVGK | 8 | 0.2 | no | yes | NeoTCR |
+| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | no | yes | VDJdb |
+| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | no | yes | VDJdb |
+| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | no | yes | VDJdb |
+| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | no | yes | VDJdb |
+| DGVGKSALTI | VVGADGVGK | 8 | 0.2 | no | yes | VDJdb |
+| ADGVGKSAL | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| ADGVGKSAL | VVVGACGVGK | 8 | 0.2 | no | yes | TCR3D |
+| LVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| LVVVGADG | GADGVGKSAL | 8 | 0.2 | no | yes | IEDB |
+| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| KLVVVGADGVG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| TEYKLVVVGAD | VVVGACGVGK | 9 | 0.182 | unknown | yes | TCR3D |
+| TEYKLVVVGAD | VVVGACGVGK | 9 | 0.182 | unknown | yes | TCR3D |
+| DGVGKSALTIQ | VVVGADGVGK | 9 | 0.182 | no | yes | NeoTCR |
+| DGVGKSALTIQ | VVVGACGVGK | 9 | 0.182 | no | yes | TCR3D |
+| DGVGKSALTIQ | VVVGACGVGK | 9 | 0.182 | no | yes | TCR3D |
+| TEYKLVVVGAD | VVVGADGVGK | 9 | 0.182 | unknown | yes | NeoTCR |
+| DGVGKSALTIQ | VVVGAVGVGK | 9 | 0.182 | no | yes | VDJdb |
+| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| EYKLVVVGADG | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | unknown | yes | IEDB |
+| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | unknown | yes | IEDB |
+| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | unknown | yes | IEDB |
+| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | unknown | yes | IEDB |
+| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | unknown | yes | IEDB |
+| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | unknown | yes | IEDB |
+| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | unknown | yes | IEDB |
+| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | unknown | yes | IEDB |
+| TEYKLVVVGAD | GADGVGKSAL | 9 | 0.182 | unknown | yes | IEDB |
+| ADGVGKSALTI | VVVGADGVGK | 9 | 0.182 | no | yes | NeoTCR |
+| ADGVGKSALTI | VVVGAVGVGK | 9 | 0.182 | no | yes | VDJdb |
+| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| YKLVVVGADGV | GADGVGKSAL | 9 | 0.182 | no | yes | IEDB |
+| ADGVGKSALTI | VVVGACGVGK | 9 | 0.182 | no | yes | TCR3D |
+| ADGVGKSALTI | VVVGACGVGK | 9 | 0.182 | no | yes | TCR3D |
+| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | unknown | yes | VDJdb |
+| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | unknown | yes | VDJdb |
+| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | unknown | yes | VDJdb |
+| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | unknown | yes | VDJdb |
+| TEYKLVVVGAD | VVGADGVGK | 9 | 0.182 | unknown | yes | VDJdb |
+| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | no | yes | VDJdb |
+| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | no | yes | VDJdb |
+| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | no | yes | VDJdb |
+| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | no | yes | VDJdb |
+| DGVGKSALTIQ | VVGADGVGK | 9 | 0.182 | no | yes | VDJdb |
+| DGVGKSALT | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| DGVGKSALT | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| DGVGKSALT | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| DGVGKSALT | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| DGVGKSALT | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| YKLVVVGAD | VVGADGVGK | 8 | 0.111 | no | yes | VDJdb |
+| ADGVGKSALT | VVVGAVGVGK | 9 | 0.1 | no | yes | VDJdb |
+| EYKLVVVGAD | VVVGACGVGK | 9 | 0.1 | no | yes | TCR3D |
+| EYKLVVVGAD | VVVGACGVGK | 9 | 0.1 | no | yes | TCR3D |
+| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | no | yes | IEDB |
+| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | no | yes | IEDB |
+| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | no | yes | IEDB |
+| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | no | yes | IEDB |
+| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | no | yes | IEDB |
+| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | no | yes | IEDB |
+| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | no | yes | IEDB |
+| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | no | yes | IEDB |
+| YKLVVVGADG | GADGVGKSAL | 9 | 0.1 | no | yes | IEDB |
+| ADGVGKSALT | VVVGACGVGK | 9 | 0.1 | no | yes | TCR3D |
+| ADGVGKSALT | VVVGACGVGK | 9 | 0.1 | no | yes | TCR3D |
+
+### Curated related mutations
+| query_gene | query_mutation | related_gene | related_mutation | related_query | relationship_group | source |
+| --- | --- | --- | --- | --- | --- | --- |
+| KRAS | G12D | KRAS | G12V | KRAS G12V | RAS | data/mutation_groups/ras.yaml |
+| KRAS | G12D | KRAS | G12C | KRAS G12C | RAS | data/mutation_groups/ras.yaml |
+| KRAS | G12D | KRAS | G13D | KRAS G13D | RAS | data/mutation_groups/ras.yaml |
+| KRAS | G12D | NRAS | G12D | NRAS G12D | RAS | data/mutation_groups/ras.yaml |
+| KRAS | G12D | HRAS | G12D | HRAS G12D | RAS | data/mutation_groups/ras.yaml |
 
 ## 7. Evidence score table
 | identifier | source | epitope | raw_score | score_category | explanation |
 | --- | --- | --- | --- | --- | --- |
-| VDJDB-KRAS-G12D-001 | VDJdb | VVGADGVGK | 145 | High | same peptide +50; same HLA +20; same mutation/gene +15; functional assay evidence +30; tetramer evidence +20; literature PMID available +10 |
-| IEDB-KRAS-G12D-001 | IEDB | GADGVGKSAL | 75 | Medium | same HLA +20; same mutation/gene +15; functional assay evidence +30; literature PMID available +10 |
-| VDJDB-KRAS-G12V-001 | VDJdb | VVVGAVGVGK | 55 | Medium | same HLA +20; same antigen family +5; functional assay evidence +30 |
-| TCR3D-KRAS-LIKE-001 | TCR3D | VVVGACGVGK | 45 | Low | same HLA +20; same antigen family +5; structure available +20 |
+| VDJDB-KRAS-G12D-001 | VDJdb | VVGADGVGK | 150 | High | same peptide +50; same HLA +20; same mutation/gene +15; same protein family +5; functional assay +30; tetramer evidence +20; literature PMID +10 |
+| NEOTCR-KRAS-G12D-001 | NeoTCR | VVVGADGVGK | 100 | High | same peptide +50; same HLA +20; same mutation/gene +15; same protein family +5; literature PMID +10 |
+| IEDB-KRAS-G12D-001 | IEDB | GADGVGKSAL | 80 | Medium | same HLA +20; same mutation/gene +15; same protein family +5; functional assay +30; literature PMID +10 |
+| VDJDB-KRAS-G12V-001 | VDJdb | VVVGAVGVGK | 55 | Medium | same HLA +20; same protein family +5; functional assay +30 |
+| TCR3D-KRAS-LIKE-001 | TCR3D | VVVGACGVGK | 45 | Low | same HLA +20; same protein family +5; structure available +20 |
 
 ## 8. Experimental planning suggestions
 ### Priority peptide 1: `VVGADGVGK`
@@ -784,14 +834,20 @@ It is not a de novo TCR generator or therapeutic TCR design platform.
 - Reason: binding rank 2.7 by rule-based-fallback-v0.1 and available evidence search context.
 
 Suggested next experiments:
-- synthesize top mutant peptide
-- synthesize matched wild-type peptide as control
-- generate HLA-peptide tetramer
-- screen TCR-positive T cells or candidate TCRs
-- perform peptide titration assay
-- perform cross-reactivity panel
+- Synthesize top-ranked mutant peptide candidates and matched wild-type control peptides.
+- Confirm peptide-HLA presentation/binding with an orthogonal assay where feasible.
+- Generate HLA-peptide tetramers or multimers for candidate-specific T cell enrichment/screening.
+- Screen candidate T cells or TCRs with mutant peptide, wild-type peptide, and no-peptide controls.
+- Run peptide titration or dose-response assays to estimate functional avidity.
+- Test HLA-matched irrelevant peptide controls and HLA-mismatched negative controls.
+- Perform focused cross-reactivity testing against related/self-peptide panels before any downstream use.
 
-## 9. Limitations and warnings
+Practical prioritization notes:
+- Start with candidates that combine strong MHC binding, exact/similar peptide evidence, and high evidence scores.
+- Treat every candidate as a research hypothesis until antigen specificity and cross-reactivity are experimentally measured.
+- Preserve all TSV/JSON artifacts with notebook or LIMS records so each candidate remains traceable to source evidence.
+
+## 9. Limitations & warnings
 - Database hits do not prove therapeutic safety.
 - TCR cross-reactivity must be experimentally tested.
 - NeoTCR-Scout is for research prioritization only, not clinical decision-making.

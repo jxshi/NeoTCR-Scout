@@ -27,23 +27,48 @@
   "third_party_tool_notice": "Academic-use workflow notice: NetMHCpan and MHCflurry are external tools. Before using either predictor, contact the original authors and comply with their licenses and citation requirements.",
   "related_mutations": [
     {
-      "query": "KRAS G12V",
+      "query_gene": "KRAS",
+      "query_mutation": "G12D",
+      "related_gene": "KRAS",
+      "related_mutation": "G12V",
+      "related_query": "KRAS G12V",
+      "relationship_group": "RAS",
       "source": "data/mutation_groups/ras.yaml"
     },
     {
-      "query": "KRAS G12C",
+      "query_gene": "KRAS",
+      "query_mutation": "G12D",
+      "related_gene": "KRAS",
+      "related_mutation": "G12C",
+      "related_query": "KRAS G12C",
+      "relationship_group": "RAS",
       "source": "data/mutation_groups/ras.yaml"
     },
     {
-      "query": "KRAS G13D",
+      "query_gene": "KRAS",
+      "query_mutation": "G12D",
+      "related_gene": "KRAS",
+      "related_mutation": "G13D",
+      "related_query": "KRAS G13D",
+      "relationship_group": "RAS",
       "source": "data/mutation_groups/ras.yaml"
     },
     {
-      "query": "NRAS G12D",
+      "query_gene": "KRAS",
+      "query_mutation": "G12D",
+      "related_gene": "NRAS",
+      "related_mutation": "G12D",
+      "related_query": "NRAS G12D",
+      "relationship_group": "RAS",
       "source": "data/mutation_groups/ras.yaml"
     },
     {
-      "query": "HRAS G12D",
+      "query_gene": "KRAS",
+      "query_mutation": "G12D",
+      "related_gene": "HRAS",
+      "related_mutation": "G12D",
+      "related_query": "HRAS G12D",
+      "relationship_group": "RAS",
       "source": "data/mutation_groups/ras.yaml"
     }
   ],
@@ -58,10 +83,25 @@
       "trb_cdr3": "CASSIRSSYEQYF",
       "similarity": 1.0,
       "evidence": "functional assay; tetramer evidence",
-      "score": 145.0,
-      "raw_score": 145,
+      "score": 150.0,
+      "raw_score": 150,
       "score_category": "High",
-      "explanation": "same peptide +50; same HLA +20; same mutation/gene +15; functional assay evidence +30; tetramer evidence +20; literature PMID available +10"
+      "explanation": "same peptide +50; same HLA +20; same mutation/gene +15; same protein family +5; functional assay +30; tetramer evidence +20; literature PMID +10"
+    },
+    {
+      "identifier": "NEOTCR-KRAS-G12D-001",
+      "source": "NeoTCR",
+      "peptide": "VVVGADGVGK",
+      "epitope": "VVVGADGVGK",
+      "hla": "HLA-A*11:01",
+      "tra_cdr3": "CAVRNNARLMF",
+      "trb_cdr3": "CASSLAPGATNEKLFF",
+      "similarity": 1.0,
+      "evidence": "curated local evidence",
+      "score": 100.0,
+      "raw_score": 100,
+      "score_category": "High",
+      "explanation": "same peptide +50; same HLA +20; same mutation/gene +15; same protein family +5; literature PMID +10"
     },
     {
       "identifier": "IEDB-KRAS-G12D-001",
@@ -73,10 +113,10 @@
       "trb_cdr3": "CASSQDRGYEQYF",
       "similarity": 0.5,
       "evidence": "functional assay",
-      "score": 75.0,
-      "raw_score": 75,
+      "score": 80.0,
+      "raw_score": 80,
       "score_category": "Medium",
-      "explanation": "same HLA +20; same mutation/gene +15; functional assay evidence +30; literature PMID available +10"
+      "explanation": "same HLA +20; same mutation/gene +15; same protein family +5; functional assay +30; literature PMID +10"
     },
     {
       "identifier": "VDJDB-KRAS-G12V-001",
@@ -91,7 +131,7 @@
       "score": 55.0,
       "raw_score": 55,
       "score_category": "Medium",
-      "explanation": "same HLA +20; same antigen family +5; functional assay evidence +30"
+      "explanation": "same HLA +20; same protein family +5; functional assay +30"
     },
     {
       "identifier": "TCR3D-KRAS-LIKE-001",
@@ -106,7 +146,7 @@
       "score": 45.0,
       "raw_score": 45,
       "score_category": "Low",
-      "explanation": "same HLA +20; same antigen family +5; structure available +20"
+      "explanation": "same HLA +20; same protein family +5; structure available +20"
     }
   ]
 }

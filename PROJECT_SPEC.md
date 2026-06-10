@@ -158,7 +158,7 @@ Scientific question:
 
 Minimum outputs:
 
-- `similar_mutations.tsv`
+- `similar_mutations.tsv` with standard columns: `query_gene`, `query_mutation`, `related_gene`, `related_mutation`, `related_query`, `relationship_group`, and `source`.
 - `similarity_hits.tsv`
 - report section explaining why each related mutation was considered.
 

@@ -427,8 +427,35 @@ def test_rank_tcr_candidates_places_highest_rule_based_score_first():
 
 def test_relationships_for_kras_g12d():
     related = related_mutations("KRAS", "G12D")
-    assert "KRAS G12V" in related
-    assert "NRAS G12D" in related
+    assert related == ["KRAS G12V", "KRAS G12C", "KRAS G13D", "NRAS G12D", "HRAS G12D"]
+
+
+def test_related_mutation_records_are_standardized_for_downstream_search():
+    records = related_mutation_records("kras", "g12d")
+
+    assert [record.related_query for record in records] == [
+        "KRAS G12V",
+        "KRAS G12C",
+        "KRAS G13D",
+        "NRAS G12D",
+        "HRAS G12D",
+    ]
+    first = records[0].to_dict()
+    assert first == {
+        "query_gene": "KRAS",
+        "query_mutation": "G12D",
+        "related_gene": "KRAS",
+        "related_mutation": "G12V",
+        "related_query": "KRAS G12V",
+        "relationship_group": "RAS",
+        "source": "data/mutation_groups/ras.yaml",
+    }
+    assert records[2].related_gene == "KRAS"
+    assert records[2].related_mutation == "G13D"
+    assert records[3].related_gene == "NRAS"
+    assert records[3].related_mutation == "G12D"
+    assert records[4].related_gene == "HRAS"
+    assert records[4].related_mutation == "G12D"
 
 
 def test_workflow_writes_requested_artifacts_and_reports(tmp_path: Path):
@@ -446,6 +473,9 @@ def test_workflow_writes_requested_artifacts_and_reports(tmp_path: Path):
     ]
     for filename in expected:
         assert (tmp_path / filename).exists()
+    similar_mutations = (tmp_path / "similar_mutations.tsv").read_text(encoding="utf-8")
+    assert "query_gene	query_mutation	related_gene	related_mutation	related_query	relationship_group	source" in similar_mutations
+    assert "KRAS	G12D	KRAS	G12V	KRAS G12V	RAS	data/mutation_groups/ras.yaml" in similar_mutations
     assert result.tcr_candidates
     report_md = (tmp_path / "report.md").read_text(encoding="utf-8")
     assert "Experimental planning suggestions" in report_md

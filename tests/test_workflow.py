@@ -22,6 +22,7 @@ from neotcr_scout.relationship import related_mutations
 from neotcr_scout.scoring import score_tcr_entry
 from neotcr_scout.similarity import (
     blosum62_score,
+    build_similarity_hit,
     exact_peptide_match,
     levenshtein_distance,
     normalized_similarity,
@@ -237,7 +238,7 @@ def test_generate_mutant_peptides_rejects_invalid_mutation_inputs():
 def test_similarity_metrics_and_match_types():
     assert levenshtein_distance("VVVGADGVGK", "VVVGACGVGK") == 1
     assert normalized_similarity("VVVGADGVGK", "VVVGACGVGK") == 0.9
-    assert exact_peptide_match("AAA", "AAA")
+    assert exact_peptide_match(" aaa ", "AAA")
     assert one_mismatch_peptide_match("AAA", "AAV")
     assert two_mismatch_peptide_match("AAA", "AVV")
     assert blosum62_score("VVV", "VVV") > blosum62_score("VVV", "DDD")

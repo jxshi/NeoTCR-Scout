@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from neotcr_scout.input import normalize_hla
+
 BLOSUM62: dict[tuple[str, str], int] = {}
 _BLOSUM_ROWS = {
     "A": "4 -1 -2 -2 0 -1 -1 0 -2 -1 -1 -1 -1 -2 -1 1 0 -3 -2 0",
@@ -48,6 +50,8 @@ class SimilarityHit:
 def levenshtein_distance(left: str, right: str) -> int:
     """Compute Levenshtein edit distance."""
 
+    left = _normalize_peptide(left)
+    right = _normalize_peptide(right)
     if left == right:
         return 0
     if not left:
@@ -66,6 +70,8 @@ def levenshtein_distance(left: str, right: str) -> int:
 def normalized_similarity(left: str, right: str) -> float:
     """Return 0-1 edit similarity, where 1 is an exact match."""
 
+    left = _normalize_peptide(left)
+    right = _normalize_peptide(right)
     max_length = max(len(left), len(right))
     if max_length == 0:
         return 1.0
@@ -75,6 +81,8 @@ def normalized_similarity(left: str, right: str) -> float:
 def blosum62_score(left: str, right: str) -> int:
     """Compute a simple ungapped BLOSUM62 score over aligned positions."""
 
+    left = _normalize_peptide(left)
+    right = _normalize_peptide(right)
     score = 0
     for aa, bb in zip(left, right):
         score += BLOSUM62.get((aa, bb), -4)
@@ -83,14 +91,20 @@ def blosum62_score(left: str, right: str) -> int:
 
 
 def exact_peptide_match(query: str, epitope: str) -> bool:
-    return query == epitope
+    """Return True when query and matched epitope are identical."""
+
+    return _normalize_peptide(query) == _normalize_peptide(epitope)
 
 
 def one_mismatch_peptide_match(query: str, epitope: str) -> bool:
+    """Return True when equal-length peptides differ at exactly one position."""
+
     return _mismatch_count(query, epitope) == 1
 
 
 def two_mismatch_peptide_match(query: str, epitope: str) -> bool:
+    """Return True when equal-length peptides differ at exactly two positions."""
+
     return _mismatch_count(query, epitope) == 2
 
 
@@ -102,17 +116,19 @@ def build_similarity_hit(
     source: str,
     mutation_index: int | None = None,
 ) -> SimilarityHit:
-    distance = levenshtein_distance(query_peptide, matched_epitope)
+    query = _normalize_peptide(query_peptide)
+    epitope = _normalize_peptide(matched_epitope)
+    distance = levenshtein_distance(query, epitope)
     mutation_site_match = "unknown"
-    if mutation_index is not None and 0 <= mutation_index < min(len(query_peptide), len(matched_epitope)):
-        mutation_site_match = "yes" if query_peptide[mutation_index] == matched_epitope[mutation_index] else "no"
-    same_hla = "yes" if query_hla and matched_hla and query_hla == matched_hla else "no"
+    if mutation_index is not None and 0 <= mutation_index < min(len(query), len(epitope)):
+        mutation_site_match = "yes" if query[mutation_index] == epitope[mutation_index] else "no"
+    same_hla = "yes" if _same_hla(query_hla, matched_hla) else "no"
     return SimilarityHit(
-        query_peptide=query_peptide,
-        matched_epitope=matched_epitope,
+        query_peptide=query,
+        matched_epitope=epitope,
         distance=distance,
-        similarity_score=normalized_similarity(query_peptide, matched_epitope),
-        blosum62_score=blosum62_score(query_peptide, matched_epitope),
+        similarity_score=normalized_similarity(query, epitope),
+        blosum62_score=blosum62_score(query, epitope),
         mutation_site_match=mutation_site_match,
         same_hla=same_hla,
         source=source,
@@ -120,6 +136,18 @@ def build_similarity_hit(
 
 
 def _mismatch_count(left: str, right: str) -> int:
+    left = _normalize_peptide(left)
+    right = _normalize_peptide(right)
     if len(left) != len(right):
         return 999
     return sum(a != b for a, b in zip(left, right))
+
+
+def _normalize_peptide(peptide: str) -> str:
+    return peptide.strip().upper().replace(" ", "")
+
+
+def _same_hla(query_hla: str | None, matched_hla: str | None) -> bool:
+    if not query_hla or not matched_hla:
+        return False
+    return normalize_hla(query_hla) == normalize_hla(matched_hla)

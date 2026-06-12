@@ -1,4 +1,8 @@
+import subprocess
+import sys
 from pathlib import Path
+
+import pytest
 
 from neotcr_scout import (
     generate_mutant_peptides,
@@ -18,7 +22,11 @@ from neotcr_scout.database import (
 )
 from neotcr_scout.input import ProjectInput
 from neotcr_scout.models import TCREntry, TCREvidence
+<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
+from neotcr_scout.relationship import related_mutation_records, related_mutations
+=======
 from neotcr_scout.relationship import related_mutations
+>>>>>>> main
 from neotcr_scout.scoring import score_tcr_entry
 from neotcr_scout.similarity import (
     blosum62_score,
@@ -39,6 +47,22 @@ def test_load_project_yaml_contract():
     assert project.mutation == "G12D"
     assert project.hla == ["HLA-A*11:01"]
     assert project.peptide_lengths == [8, 9, 10, 11]
+
+
+def test_mutation_parsing_accepts_protein_substitutions_and_rejects_invalid_values():
+    parsed = parse_mutation("g12d")
+    assert parsed.wildtype == "G"
+    assert parsed.position == 12
+    assert parsed.mutant == "D"
+    assert parsed.label == "G12D"
+
+    for mutation in ["12D", "B12D", "G12G"]:
+        try:
+            parse_mutation(mutation)
+        except ValueError as exc:
+            assert "mutation" in str(exc) or "Unsupported" in str(exc)
+        else:
+            raise AssertionError(f"invalid mutation {mutation} should fail")
 
 
 def test_input_validation_and_hla_normalization():
@@ -244,6 +268,53 @@ def test_similarity_metrics_and_match_types():
     assert blosum62_score("VVV", "VVV") > blosum62_score("VVV", "DDD")
 
 
+<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
+def test_similarity_hits_capture_kras_g12d_related_mutation_examples():
+    query = "VVVGADGVGK"
+    kras_g12v = "VVVGAVGVGK"
+    kras_g13d = "VVVGAGDVGK"
+
+    assert one_mismatch_peptide_match(query, kras_g12v)
+    assert two_mismatch_peptide_match(query, kras_g13d)
+    assert levenshtein_distance(query, kras_g12v) == 1
+    assert levenshtein_distance(query, kras_g13d) == 2
+    assert normalized_similarity(query, kras_g12v) == 0.9
+    assert normalized_similarity(query, kras_g13d) == 0.8
+    assert blosum62_score(query, kras_g12v) > blosum62_score(query, kras_g13d)
+
+    g12v_hit = build_similarity_hit(
+        query_peptide=query,
+        matched_epitope=kras_g12v,
+        query_hla="hla-a1101",
+        matched_hla="HLA-A*11:01",
+        source="KRAS G12V",
+        mutation_index=5,
+    )
+    assert g12v_hit.query_peptide == query
+    assert g12v_hit.matched_epitope == kras_g12v
+    assert g12v_hit.distance == 1
+    assert g12v_hit.similarity_score == 0.9
+    assert g12v_hit.mutation_site_match == "no"
+    assert g12v_hit.same_hla == "yes"
+    assert g12v_hit.source == "KRAS G12V"
+
+    g13d_hit = build_similarity_hit(
+        query_peptide=query,
+        matched_epitope=kras_g13d,
+        query_hla="HLA-A*11:01",
+        matched_hla="HLA-A*03:01",
+        source="KRAS G13D",
+        mutation_index=5,
+    )
+    assert g13d_hit.distance == 2
+    assert g13d_hit.similarity_score == 0.8
+    assert g13d_hit.mutation_site_match == "no"
+    assert g13d_hit.same_hla == "no"
+    assert g13d_hit.source == "KRAS G13D"
+
+
+=======
+>>>>>>> main
 def test_database_adapters_return_normalized_tcr_evidence_by_peptide_and_hla():
     required_fields = {
         "source",
@@ -491,6 +562,12 @@ def test_workflow_writes_requested_artifacts_and_reports(tmp_path: Path):
     ]
     for section in expected_sections:
         assert section in report_md
+<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
+    similarity_hits = (tmp_path / "similarity_hits.tsv").read_text(encoding="utf-8")
+    assert "query_peptide	matched_epitope	distance	similarity_score" in similarity_hits
+    assert "mutation_site_match	same_hla	source" in similarity_hits
+=======
+>>>>>>> main
     assert "### Curated related mutations" in report_md
     assert "KRAS G12V" in report_md
     assert "Synthesize top-ranked mutant peptide candidates" in report_md
@@ -500,6 +577,89 @@ def test_workflow_writes_requested_artifacts_and_reports(tmp_path: Path):
     assert "NeoTCR-Scout report" in report_html
     assert "Input mutation &amp; HLA" in report_html
     assert "Limitations &amp; warnings" in report_html
+<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
+
+
+@pytest.mark.parametrize(
+    "example_path",
+    [
+        Path("examples/kras_g12d_hla_a1101.yaml"),
+        Path("examples/kras_g12v_hla_a0301.yaml"),
+        Path("examples/tp53_r175h_hla_a0201.yaml"),
+    ],
+)
+def test_example_inputs_run_successfully_with_pytest(example_path: Path, tmp_path: Path):
+    result = run_project(example_path, tmp_path / example_path.stem)
+
+    assert result.peptides
+    assert result.mhc_binding
+    for artifact_name in ["peptides", "mhc_binding", "tcr_hits", "evidence_score", "report_md", "report"]:
+        assert result.artifacts[artifact_name].exists()
+    report_md = result.artifacts["report_md"].read_text(encoding="utf-8")
+    assert "## 1. Project summary" in report_md
+    assert "## 8. Experimental planning suggestions" in report_md
+
+
+def test_cli_run_command_writes_expected_outputs_and_exits_zero(tmp_path: Path):
+    out_dir = tmp_path / "kras_g12d_cli"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "neotcr_scout.cli",
+            "run",
+            "examples/kras_g12d_hla_a1101.yaml",
+            "--out",
+            str(out_dir),
+        ],
+        cwd=Path.cwd(),
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert completed.returncode == 0, completed.stderr
+    assert out_dir.exists()
+    for filename in [
+        "peptides.tsv",
+        "mhc_binding.tsv",
+        "tcr_hits.tsv",
+        "evidence_score.tsv",
+        "similarity_hits.tsv",
+        "similar_mutations.tsv",
+        "evidence.json",
+        "report.md",
+        "report.html",
+    ]:
+        assert (out_dir / filename).exists(), filename
+    assert (out_dir / "report.html").read_text(encoding="utf-8")
+    assert "Report:" in completed.stdout
+
+
+def test_cli_invalid_input_exits_nonzero_without_traceback(tmp_path: Path):
+    invalid_yaml = tmp_path / "invalid.yaml"
+    invalid_yaml.write_text(
+        "project: BAD\n"
+        "gene: KRAS\n"
+        "mutation: 12D\n"
+        "hla:\n"
+        "  - HLA-A*11:01\n",
+        encoding="utf-8",
+    )
+
+    completed = subprocess.run(
+        [sys.executable, "-m", "neotcr_scout.cli", "run", str(invalid_yaml), "--out", str(tmp_path / "bad")],
+        cwd=Path.cwd(),
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert completed.returncode == 1
+    assert "Error: mutation must use AA + position + AA" in completed.stderr
+    assert "Traceback" not in completed.stderr
+=======
+>>>>>>> main
 
 
 def test_quick_run_without_protein_sequence_uses_builtin_kras_reference(tmp_path: Path):

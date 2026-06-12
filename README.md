@@ -84,6 +84,7 @@ peptide_lengths:
 
 Input validation normalizes HLA forms such as `HLA-A*11:01`, `A*11:01`, and `HLA-A1101` to a consistent representation.
 
+<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
 ### Input YAML schema
 
 The project input is defined as a Pydantic schema with these fields:
@@ -99,6 +100,8 @@ The project input is defined as a Pydantic schema with these fields:
 
 Invalid input raises clear messages that name the failing field, such as an invalid mutation format, unsupported HLA allele, or non-list `peptide_lengths` value.
 
+=======
+>>>>>>> main
 ### Example output
 
 A successful run writes traceable artifacts to the selected output directory:
@@ -121,7 +124,11 @@ Core artifacts:
 - `evidence_score.tsv`: rule-based evidence scores with human-readable explanations.
 - `report.md` and `report.html`: readable summaries for review and experiment planning.
 
+<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
 Additional reproducibility artifacts such as `similarity_hits.tsv`, `similar_mutations.tsv`, and `evidence.json` may also be written by current workflow modules. `similar_mutations.tsv` uses standard columns for query gene/mutation, related gene/mutation, related query, relationship group, and source YAML provenance.
+=======
+Additional reproducibility artifacts such as `similarity_hits.tsv`, `similar_mutations.tsv`, and `evidence.json` may also be written by current workflow modules.
+>>>>>>> main
 
 ## Workflow diagram
 

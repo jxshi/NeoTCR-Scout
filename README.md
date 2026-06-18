@@ -51,6 +51,12 @@ For full-featured local development with third-party Python libraries, use `pip 
 neotcr-scout run examples/kras_g12d_hla_a1101.yaml --out results/kras_g12d
 ```
 
+Quick-run mode can use flags directly:
+
+```bash
+neotcr-scout run --gene KRAS --mutation G12D --hla 'HLA-A*11:01'
+```
+
 Equivalent module invocation:
 
 ```bash
@@ -163,8 +169,8 @@ Until a formal publication or DOI exists, cite the repository URL and commit has
 ## Development
 
 ```bash
-pytest
-PYTHONPATH=. python -m neotcr_scout.cli run examples/kras_g12d_hla_a1101.yaml --out results/kras_g12d
+python3 -m pytest
+PYTHONPATH=. python3 -m neotcr_scout.cli run examples/kras_g12d_hla_a1101.yaml --out results/kras_g12d
 ```
 
 ## License

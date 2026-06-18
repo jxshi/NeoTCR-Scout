@@ -64,7 +64,7 @@ else:
         subparsers = parser.add_subparsers(dest="command", required=True)
         run_parser = subparsers.add_parser("run", help="Run input YAML to report/output artifacts")
         run_parser.add_argument("input", nargs="?", type=Path, help="Project YAML, e.g. examples/kras_g12d_hla_a1101.yaml")
-        run_parser.add_argument("--out", required=True, type=Path, help="Output directory, e.g. results/kras_g12d")
+        run_parser.add_argument("--out", default=Path("results"), type=Path, help="Output directory, e.g. results/kras_g12d")
         run_parser.add_argument("--gene", help="Gene symbol for quick-run mode")
         run_parser.add_argument("--mutation", help="Protein mutation for quick-run mode, e.g. G12D")
         run_parser.add_argument("--hla", help="HLA allele for quick-run mode, e.g. HLA-A*11:01")

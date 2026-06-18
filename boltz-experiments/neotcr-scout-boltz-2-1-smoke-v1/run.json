@@ -1,0 +1,70 @@
+{
+  "completed_at": "2026-06-17T12:20:08.372Z",
+  "created_at": "2026-06-17T12:18:45.788Z",
+  "data_deleted_at": null,
+  "error": null,
+  "expires_at": "2026-06-24T12:20:08.372Z",
+  "id": "sab_pred_bPZbiVsBuWXLTtUZu1og",
+  "idempotency_key": "neotcr-scout-boltz-2-1-smoke-v1",
+  "input": {
+    "entities": [
+      {
+        "chain_ids": [
+          "A"
+        ],
+        "modifications": [],
+        "type": "protein",
+        "value": "MKTFFVAGVILALASCVA"
+      },
+      {
+        "chain_ids": [
+          "L"
+        ],
+        "type": "ligand_smiles",
+        "value": "CCO"
+      }
+    ],
+    "num_samples": 1
+  },
+  "livemode": true,
+  "model": "boltz-2.1",
+  "output": {
+    "all_sample_results": [
+      {
+        "ligand_structure": {},
+        "metrics": {
+          "complex_ipde": 1.070662498474121,
+          "complex_iplddt": 0.689315140247345,
+          "complex_pde": 0.33735889196395874,
+          "complex_plddt": 0.9082822203636169,
+          "iptm": 0.12370418012142181,
+          "ligand_iptm": 0.12370418012142181,
+          "protein_iptm": 0,
+          "ptm": 0.6107220649719238,
+          "structure_confidence": 0.7513666152954102
+        },
+        "structure": {}
+      }
+    ],
+    "archive": {},
+    "best_sample": {
+      "ligand_structure": {},
+      "metrics": {
+        "complex_ipde": 1.070662498474121,
+        "complex_iplddt": 0.689315140247345,
+        "complex_pde": 0.33735889196395874,
+        "complex_plddt": 0.9082822203636169,
+        "iptm": 0.12370418012142181,
+        "ligand_iptm": 0.12370418012142181,
+        "protein_iptm": 0,
+        "ptm": 0.6107220649719238,
+        "structure_confidence": 0.7513666152954102
+      },
+      "structure": {}
+    }
+  },
+  "started_at": "2026-06-17T12:19:02.041Z",
+  "status": "succeeded",
+  "version": "v2026-03-01",
+  "workspace_id": "ws_RD0ynsHfHLqbEGeEPhkw"
+}

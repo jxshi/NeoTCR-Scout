@@ -1,0 +1,20 @@
+{
+  "cursor_after_id": null,
+  "download_mode": "everything",
+  "idempotency_key": "download_244939ecb32d54ddd12b548565220e51",
+  "name": "neotcr-scout-boltz-2-1-smoke-v1",
+  "pending": null,
+  "remote": {
+    "run_id": "sab_pred_bPZbiVsBuWXLTtUZu1og",
+    "workspace_id": "ws_RD0ynsHfHLqbEGeEPhkw",
+    "status": "succeeded",
+    "started_at": "2026-06-17T12:19:02.041Z",
+    "completed_at": "2026-06-17T12:20:08.372Z",
+    "stopped_at": null,
+    "latest_result_id": null,
+    "error_code": null
+  },
+  "request_fingerprint": "9f067fc31fa9ff13879068c9699f1048d6e1a3eb6461bdc2242b24607fa8e3c4",
+  "run_type": "prediction",
+  "schema_version": 1
+}

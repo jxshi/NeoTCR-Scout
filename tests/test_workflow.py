@@ -317,3 +317,4 @@ def test_workflow_evidence_records_third_party_license_notice(tmp_path: Path):
     run_project("examples/kras_g12d_hla_a1101.yaml", tmp_path)
     evidence = (tmp_path / "evidence.json").read_text(encoding="utf-8")
     assert "contact the original authors" in evidence
+    assert '"NeoTCR"' in evidence

@@ -101,7 +101,7 @@ def run_validated_project(project: ProjectInput, out_dir: str | Path) -> Workflo
         "mutation": project.mutation,
         "hla": project.hla,
         "artifacts": {key: str(path) for key, path in artifacts.items()},
-        "databases": ["VDJdb", "IEDB", "TCR3D"],
+        "databases": ["VDJdb", "IEDB", "TCR3D", "NeoTCR"],
         "mhc_binding_methods": sorted({prediction.method for prediction in binding}),
         "third_party_tool_notice": ACADEMIC_LICENSE_NOTICE,
         "related_mutations": related_rows,

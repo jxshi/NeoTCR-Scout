@@ -48,14 +48,13 @@ Canonical demo:
 neotcr-scout run \
   --gene KRAS \
   --mutation G12D \
-  --hla HLA-A*11:01
+  --hla 'HLA-A*11:01'
 ```
 
 ### Required output
 
 ```text
 results/
-├── peptides.tsv
 ├── peptides.tsv
 ├── mhc_binding.tsv
 ├── tcr_hits.tsv

@@ -1,0 +1,9 @@
+entities:
+  - type: protein
+    chain_ids:
+      - A
+    value: MKTFFVAGVILALASCVA
+  - type: ligand_smiles
+    chain_ids:
+      - L
+    value: CCO

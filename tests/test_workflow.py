@@ -22,11 +22,7 @@ from neotcr_scout.database import (
 )
 from neotcr_scout.input import ProjectInput
 from neotcr_scout.models import TCREntry, TCREvidence
-<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
 from neotcr_scout.relationship import related_mutation_records, related_mutations
-=======
-from neotcr_scout.relationship import related_mutations
->>>>>>> main
 from neotcr_scout.scoring import score_tcr_entry
 from neotcr_scout.similarity import (
     blosum62_score,
@@ -97,7 +93,7 @@ def test_invalid_input_has_clear_error_message():
 
 
 def test_project_input_is_pydantic_schema_with_expected_fields():
-    import pydantic
+    pydantic = pytest.importorskip("pydantic")
 
     assert issubclass(ProjectInput, pydantic.BaseModel)
     schema = ProjectInput.model_json_schema()
@@ -268,7 +264,6 @@ def test_similarity_metrics_and_match_types():
     assert blosum62_score("VVV", "VVV") > blosum62_score("VVV", "DDD")
 
 
-<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
 def test_similarity_hits_capture_kras_g12d_related_mutation_examples():
     query = "VVVGADGVGK"
     kras_g12v = "VVVGAVGVGK"
@@ -312,9 +307,6 @@ def test_similarity_hits_capture_kras_g12d_related_mutation_examples():
     assert g13d_hit.same_hla == "no"
     assert g13d_hit.source == "KRAS G13D"
 
-
-=======
->>>>>>> main
 def test_database_adapters_return_normalized_tcr_evidence_by_peptide_and_hla():
     required_fields = {
         "source",
@@ -375,6 +367,55 @@ def test_core_function_pipeline_returns_ranked_candidates():
     assert ranked
     assert ranked[0].raw_score >= ranked[-1].raw_score
     assert ranked[0].explanation
+
+
+def test_database_adapters_return_normalized_tcr_evidence():
+    adapters = [
+        ("VDJdb", search_vdjdb, "VVGADGVGK"),
+        ("IEDB", search_iedb, "VVVGADGVGK"),
+        ("TCR3D", search_tcr3d, "VVVGACGVGK"),
+        ("NeoTCR", search_neotcr, "VVVGADGVGK"),
+    ]
+    required_fields = [
+        "source",
+        "epitope",
+        "hla",
+        "tra_cdr3",
+        "trb_cdr3",
+        "trbv",
+        "trbj",
+        "organism",
+        "disease",
+        "assay",
+        "pubmed_id",
+        "url",
+        "evidence_level",
+    ]
+    for expected_source, adapter, peptide in adapters:
+        hits = adapter(peptide, "A1101")
+        assert hits, f"{expected_source} adapter should return at least one fixture hit"
+        evidence = hits[0]
+        assert isinstance(evidence, TCREvidence)
+        assert evidence.source == expected_source
+        assert evidence.hla == "HLA-A*11:01"
+        evidence_dict = evidence.to_dict()
+        for field in required_fields:
+            assert hasattr(evidence, field)
+            assert field in evidence_dict
+
+
+def test_database_adapters_filter_by_hla():
+    adapters = [search_vdjdb, search_iedb, search_tcr3d, search_neotcr]
+    for adapter in adapters:
+        assert adapter("VVVGADGVGK", "HLA-A*02:01") == []
+
+
+def test_unified_database_search_includes_all_adapters_as_entries():
+    hits = search_tcr_database("VVVGADGVGK", "HLA-A*11:01")
+    sources = {hit.source for hit in hits}
+    assert {"VDJdb", "IEDB", "TCR3D", "NeoTCR"}.issubset(sources)
+    assert all(isinstance(hit, TCREntry) for hit in hits)
+    assert all(hit.metadata["query_peptide"] == "VVVGADGVGK" for hit in hits)
 
 
 def test_evidence_scoring_rules_are_transparent():
@@ -562,12 +603,9 @@ def test_workflow_writes_requested_artifacts_and_reports(tmp_path: Path):
     ]
     for section in expected_sections:
         assert section in report_md
-<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
     similarity_hits = (tmp_path / "similarity_hits.tsv").read_text(encoding="utf-8")
     assert "query_peptide	matched_epitope	distance	similarity_score" in similarity_hits
     assert "mutation_site_match	same_hla	source" in similarity_hits
-=======
->>>>>>> main
     assert "### Curated related mutations" in report_md
     assert "KRAS G12V" in report_md
     assert "Synthesize top-ranked mutant peptide candidates" in report_md
@@ -577,7 +615,9 @@ def test_workflow_writes_requested_artifacts_and_reports(tmp_path: Path):
     assert "NeoTCR-Scout report" in report_html
     assert "Input mutation &amp; HLA" in report_html
     assert "Limitations &amp; warnings" in report_html
-<<<<<<< codex/update-readme.md-for-clarity-and-completeness-x5zgy0
+    tcr_hits_header = (tmp_path / "tcr_hits.tsv").read_text(encoding="utf-8").splitlines()[0].split("\t")
+    for field in ["organism", "disease", "assay"]:
+        assert field in tcr_hits_header
 
 
 @pytest.mark.parametrize(
@@ -658,8 +698,6 @@ def test_cli_invalid_input_exits_nonzero_without_traceback(tmp_path: Path):
     assert completed.returncode == 1
     assert "Error: mutation must use AA + position + AA" in completed.stderr
     assert "Traceback" not in completed.stderr
-=======
->>>>>>> main
 
 
 def test_quick_run_without_protein_sequence_uses_builtin_kras_reference(tmp_path: Path):
@@ -719,3 +757,4 @@ def test_workflow_evidence_records_third_party_license_notice(tmp_path: Path):
     run_project("examples/kras_g12d_hla_a1101.yaml", tmp_path)
     evidence = (tmp_path / "evidence.json").read_text(encoding="utf-8")
     assert "contact the original authors" in evidence
+    assert '"NeoTCR"' in evidence

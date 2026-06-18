@@ -17,7 +17,7 @@ from neotcr_scout.input import ProjectInput, load_project
 from neotcr_scout.mhc_binding import ACADEMIC_LICENSE_NOTICE, MHCBindingPrediction, predict_mhc_binding
 from neotcr_scout.peptide import MutantPeptide, generate_mutant_peptides
 from neotcr_scout.reference import get_reference_sequence
-from neotcr_scout.relationship import related_mutations
+from neotcr_scout.relationship import related_mutation_records
 from neotcr_scout.report import generate_html_report, generate_markdown_report
 from neotcr_scout.scoring import TCRCandidate, rank_tcr_candidates
 from neotcr_scout.similarity import build_similarity_hit
@@ -75,7 +75,7 @@ def run_validated_project(project: ProjectInput, out_dir: str | Path) -> Workflo
     candidate_rows = [asdict(candidate) for candidate in candidates]
     similarity_rows = _build_similarity_rows(peptides, raw_tcr_hits)
     exact_hit_rows = [row for row in raw_hit_rows if row.get("query_peptide") == row.get("epitope")]
-    related_rows = [{"query": item, "source": "data/mutation_groups/ras.yaml"} for item in related_mutations(project.gene, project.mutation)]
+    related_rows = [record.to_dict() for record in related_mutation_records(project.gene, project.mutation)]
 
     artifacts = {
         "peptides": output_dir / "peptides.tsv",

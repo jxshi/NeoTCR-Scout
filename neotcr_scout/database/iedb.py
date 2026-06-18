@@ -28,7 +28,7 @@ IEDB_SEED = [
 
 
 def search_iedb(peptide: str, hla: str) -> list[TCREvidence]:
-    """Search IEDB receptor-style records by peptide core and normalized HLA."""
+    """Search IEDB-style records by shared peptide core and normalized HLA."""
 
     normalized_hla = normalize_hla(hla)
     hits: list[TCREvidence] = []

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 try:  # pragma: no cover - optional installed CLI path
@@ -24,6 +25,34 @@ def _print_result(result: object) -> None:
         print(f"  - {candidate.identifier} ({candidate.source}, score={candidate.raw_score}, {candidate.score_category})")
 
 
+def _run_cli_request(
+    input_path: Path | None,
+    out: Path,
+    gene: str | None,
+    mutation: str | None,
+    hla: str | None,
+    protein_sequence: str | None,
+) -> object:
+    if input_path is not None:
+        return run_project(input_path, out)
+    if not (gene and mutation and hla):
+        raise ValueError("provide input YAML or --gene --mutation --hla")
+    project = ProjectInput.from_mapping(
+        {
+            "project": f"{gene}_{mutation}_{hla}".replace("*", "").replace(":", ""),
+            "gene": gene,
+            "mutation": mutation,
+            "hla": [hla],
+            "protein_sequence": protein_sequence,
+        }
+    )
+    return run_validated_project(project, out)
+
+
+def _format_cli_error(exc: Exception) -> str:
+    return f"Error: {exc}"
+
+
 if typer is not None:  # pragma: no cover
     app = typer.Typer(help="Run the NeoTCR-Scout v0.1 evidence-guided workflow.")
 
@@ -36,21 +65,11 @@ if typer is not None:  # pragma: no cover
         hla: str | None = typer.Option(None, "--hla", help="HLA allele, e.g. HLA-A*11:01"),
         protein_sequence: str | None = typer.Option(None, "--protein-sequence", help="Protein sequence for quick-run mode"),
     ) -> None:
-        if input is not None:
-            result = run_project(input, out)
-        else:
-            if not (gene and mutation and hla):
-                raise typer.BadParameter("provide input YAML or --gene --mutation --hla")
-            project = ProjectInput.from_mapping(
-                {
-                    "project": f"{gene}_{mutation}_{hla}".replace("*", "").replace(":", ""),
-                    "gene": gene,
-                    "mutation": mutation,
-                    "hla": [hla],
-                    "protein_sequence": protein_sequence,
-                }
-            )
-            result = run_validated_project(project, out)
+        try:
+            result = _run_cli_request(input, out, gene, mutation, hla, protein_sequence)
+        except (FileNotFoundError, ValueError) as exc:
+            typer.echo(_format_cli_error(exc), err=True)
+            raise typer.Exit(1) from exc
         _print_result(result)
 
     def main(argv: list[str] | None = None) -> int:
@@ -74,21 +93,18 @@ else:
     def main(argv: list[str] | None = None) -> int:
         args = build_parser().parse_args(argv)
         if args.command == "run":
-            if args.input:
-                result = run_project(args.input, args.out)
-            else:
-                if not (args.gene and args.mutation and args.hla):
-                    raise SystemExit("provide input YAML or --gene --mutation --hla")
-                project = ProjectInput.from_mapping(
-                    {
-                        "project": f"{args.gene}_{args.mutation}_{args.hla}".replace("*", "").replace(":", ""),
-                        "gene": args.gene,
-                        "mutation": args.mutation,
-                        "hla": [args.hla],
-                        "protein_sequence": args.protein_sequence,
-                    }
+            try:
+                result = _run_cli_request(
+                    args.input,
+                    args.out,
+                    args.gene,
+                    args.mutation,
+                    args.hla,
+                    args.protein_sequence,
                 )
-                result = run_validated_project(project, args.out)
+            except (FileNotFoundError, ValueError) as exc:
+                print(_format_cli_error(exc), file=sys.stderr)
+                return 1
             _print_result(result)
             return 0
         return 1

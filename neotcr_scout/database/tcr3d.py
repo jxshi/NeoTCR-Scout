@@ -29,7 +29,7 @@ TCR3D_SEED = [
 
 
 def search_tcr3d(peptide: str, hla: str) -> list[TCREvidence]:
-    """Search TCR3D structural evidence by peptide prefix and normalized HLA."""
+    """Search TCR3D-style structural records by peptide prefix and normalized HLA."""
 
     normalized_hla = normalize_hla(hla)
     hits: list[TCREvidence] = []

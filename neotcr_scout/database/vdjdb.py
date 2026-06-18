@@ -49,13 +49,13 @@ def search_vdjdb(peptide: str, hla: str) -> list[TCREvidence]:
     """Search VDJdb-style records by exact/near peptide and normalized HLA."""
 
     normalized_hla = normalize_hla(hla)
-    entries: list[TCREvidence] = []
+    hits: list[TCREvidence] = []
     for evidence in VDJDB_SEED:
         if evidence.hla and normalize_hla(evidence.hla) != normalized_hla:
             continue
         if _within_two_mismatches(peptide, evidence.epitope):
-            entries.append(evidence)
-    return entries
+            hits.append(evidence)
+    return hits
 
 
 def _within_two_mismatches(left: str, right: str) -> bool:

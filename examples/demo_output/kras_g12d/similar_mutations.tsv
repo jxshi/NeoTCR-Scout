@@ -1,6 +1,6 @@
-query	source
-KRAS G12V	data/mutation_groups/ras.yaml
-KRAS G12C	data/mutation_groups/ras.yaml
-KRAS G13D	data/mutation_groups/ras.yaml
-NRAS G12D	data/mutation_groups/ras.yaml
-HRAS G12D	data/mutation_groups/ras.yaml
+query_gene	query_mutation	related_gene	related_mutation	related_query	relationship_group	source
+KRAS	G12D	KRAS	G12V	KRAS G12V	RAS	data/mutation_groups/ras.yaml
+KRAS	G12D	KRAS	G12C	KRAS G12C	RAS	data/mutation_groups/ras.yaml
+KRAS	G12D	KRAS	G13D	KRAS G13D	RAS	data/mutation_groups/ras.yaml
+KRAS	G12D	NRAS	G12D	NRAS G12D	RAS	data/mutation_groups/ras.yaml
+KRAS	G12D	HRAS	G12D	HRAS G12D	RAS	data/mutation_groups/ras.yaml

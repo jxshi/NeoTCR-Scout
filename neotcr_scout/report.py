@@ -17,12 +17,13 @@ LIMITATIONS = [
 ]
 
 EXPERIMENTS = [
-    "synthesize top mutant peptide",
-    "synthesize matched wild-type peptide as control",
-    "generate HLA-peptide tetramer",
-    "screen TCR-positive T cells or candidate TCRs",
-    "perform peptide titration assay",
-    "perform cross-reactivity panel",
+    "Synthesize top-ranked mutant peptide candidates and matched wild-type control peptides.",
+    "Confirm peptide-HLA presentation/binding with an orthogonal assay where feasible.",
+    "Generate HLA-peptide tetramers or multimers for candidate-specific T cell enrichment/screening.",
+    "Screen candidate T cells or TCRs with mutant peptide, wild-type peptide, and no-peptide controls.",
+    "Run peptide titration or dose-response assays to estimate functional avidity.",
+    "Test HLA-matched irrelevant peptide controls and HLA-mismatched negative controls.",
+    "Perform focused cross-reactivity testing against related/self-peptide panels before any downstream use.",
 ]
 
 
@@ -39,7 +40,7 @@ def generate_markdown_report(project: dict, output_path: str | Path | None = Non
         "NeoTCR-Scout is an evidence-guided workflow for neoantigen-specific TCR discovery and prioritization.",
         "It is not a de novo TCR generator or therapeutic TCR design platform.",
         "",
-        "## 2. Input mutation and HLA",
+        "## 2. Input mutation & HLA",
         f"- Gene: `{project['gene']}`",
         f"- Mutation: `{project['mutation']}`",
         f"- HLA: `{', '.join(project['hla'])}`",
@@ -47,14 +48,18 @@ def generate_markdown_report(project: dict, output_path: str | Path | None = Non
         "## 3. Generated neoantigen peptides",
         _markdown_table(project["peptides"], ["mutant_peptide", "wildtype_peptide", "length", "mutation_index", "flanking_context"]),
         "",
-        "## 4. MHC binding prediction summary",
+        "## 4. MHC binding summary",
         _markdown_table(project["mhc_binding"], ["peptide", "hla", "rank_percent", "binder", "method"]),
         "",
         "## 5. Exact TCR database hits",
         _markdown_table(project["exact_hits"], ["identifier", "source", "epitope", "hla", "tra_cdr3", "trb_cdr3"]),
         "",
         "## 6. Similar peptide / related mutation hits",
-        _markdown_table(project["similarity_hits"], ["query_peptide", "matched_epitope", "distance", "similarity_score", "same_hla", "source"]),
+        "### Similar peptide evidence",
+        _markdown_table(project["similarity_hits"], ["query_peptide", "matched_epitope", "distance", "similarity_score", "mutation_site_match", "same_hla", "source"]),
+        "",
+        "### Curated related mutations",
+        _markdown_table(project.get("related_mutations", []), ["query_gene", "query_mutation", "related_gene", "related_mutation", "related_query", "relationship_group", "source"]),
         "",
         "## 7. Evidence score table",
         _markdown_table(project["tcr_candidates"], ["identifier", "source", "epitope", "raw_score", "score_category", "explanation"]),
@@ -76,7 +81,17 @@ def generate_markdown_report(project: dict, output_path: str | Path | None = Non
     lines.append("")
     lines.append("Suggested next experiments:")
     lines.extend(f"- {experiment}" for experiment in EXPERIMENTS)
-    lines.extend(["", "## 9. Limitations and warnings"])
+    if project.get("tcr_candidates"):
+        lines.extend(
+            [
+                "",
+                "Practical prioritization notes:",
+                "- Start with candidates that combine strong MHC binding, exact/similar peptide evidence, and high evidence scores.",
+                "- Treat every candidate as a research hypothesis until antigen specificity and cross-reactivity are experimentally measured.",
+                "- Preserve all TSV/JSON artifacts with notebook or LIMS records so each candidate remains traceable to source evidence.",
+            ]
+        )
+    lines.extend(["", "## 9. Limitations & warnings"])
     lines.extend(f"- {item}" for item in LIMITATIONS)
     lines.extend(["", f"Third-party tool notice: {project.get('third_party_tool_notice', 'Users are responsible for third-party tool licenses.')}"])
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")

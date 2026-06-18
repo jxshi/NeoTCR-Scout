@@ -30,6 +30,7 @@ This repository is intended for academic research workflows. External predictors
 - NetMHCpan and MHCflurry must only be used by users who have obtained the appropriate rights from the original authors.
 - Database snapshots must record source URL, access date, license/terms, checksum, and normalization script.
 - Reports must preserve provenance so users can trace every candidate TCR back to a source record or adapter.
+- v0.1 seed evidence adapters include VDJdb, IEDB, TCR3D, and NeoTCR-style local curated rows, all normalized to the shared `TCREvidence` schema.
 
 ## v0.1 minimum viable workflow
 
@@ -73,7 +74,7 @@ Generate 8-11mer mutant peptides
       ↓
 Predict MHC binding or record a licensed-tool fallback/provenance status
       ↓
-Search local VDJdb-style evidence
+Search local VDJdb/IEDB/TCR3D/NeoTCR-style evidence
       ↓
 Rank and write candidate TCR evidence
       ↓
@@ -116,6 +117,20 @@ Outputs:
 - `report.md`
 - `report.html`
 
+Rule-based evidence scoring:
+
+- same peptide: +50
+- same HLA: +20
+- same mutation/gene: +15
+- same protein family: +5
+- functional assay: +30
+- tetramer evidence: +20
+- clinical evidence: +50
+- structure available: +20
+- literature PMID: +10
+
+Each scored candidate must include the raw score, score category, and human-readable explanation.
+
 Success criteria:
 
 - A wet-lab or computational biology user can run the KRAS G12D demo in minutes.
@@ -142,7 +157,7 @@ Scientific question:
 
 Minimum outputs:
 
-- `similar_mutations.tsv`
+- `similar_mutations.tsv` with standard columns: `query_gene`, `query_mutation`, `related_gene`, `related_mutation`, `related_query`, `relationship_group`, and `source`.
 - `similarity_hits.tsv`
 - report section explaining why each related mutation was considered.
 
